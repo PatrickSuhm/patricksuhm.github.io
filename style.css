@@ -1,18 +1,18 @@
  body {
      width: 1000px;
      margin: 0 auto;
-	 background: #222222;
+	 background: #bbbbbb;
  }
  
  a {
      cursor: pointer;
      word-wrap: break-word;
      text-decoration: underline;
-	 color: #999999;
+	 color: #222222;
  }
  
  a:hover {
-     color: #bbbbbb;
+     color: #dddddd;
  }
  
  img {
@@ -22,17 +22,18 @@
      margin-right: auto;
  }
  
- iframe {
-     max-width: 100%;
-     display: block;
-     margin-left: auto;
-     margin-right: auto;
+ .pati {
+     margin-left: 400px;
+ }
+ 
+ .zoom:hover {
+  transform: scale(1.03); 
  }
  
  h1 {
      font: 300 54px 'Great Vibes', 'Merienda One', Helvetica, sans-serif;
      text-align: center;
-	 color: #999999;
+	 color: #222222;
  }
 
  h2 {
@@ -41,44 +42,14 @@
      margin-left: 100px;
      margin-top: 30px;
      margin-bottom: 10px;
-	 color: #888888;
+	 color: #222222;
  }
  
- h3 {
-     font: 400 20px 'Merienda One', Helvetica, sans-serif;
-     text-align: left;
-     margin-left: 150px;
-	 color: #888888;
- }
-
- h4 {
-     font: 400 14px 'Merienda One', Helvetica, sans-serif;
-     text-align: left;
-     margin-left: 150px;
-     margin-bottom: 0px;
-	 color: #888888;
- }
-
  p {
      font: 18px Helvetica, sans-serif;
      margin-left: 150px;
      margin-right: 150px;
-	 color: #888888;
- }
- 
- p2 {
-     font: 18px Helvetica, sans-serif;
-     margin-left: 100px;
-     margin-right: 100px;
-	 color: #888888;
- }
- 
- ul {
-     font: 100 16px Helvetica, sans-serif;
-     margin-left: 150px;
-     margin-right: 150px;
-     margin-top: 0px;
-	 color: #888888;
+	 color: #222222;
  }
 
  table {
@@ -86,51 +57,19 @@
  }
 
  td {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
- }
-
- .abstract {
-     font: 100 16px Helvetica, sans-serif;
-     margin-left: 300px;
-     margin-right: 150px;
-     margin-top:-40px;
-     margin-bottom: 50px;
-	 color: #888888;
- }
- .abstract p{
-	margin-left: 0px; 
-	margin-right: 0px; 
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
  }
 
  .navLink {
      font: 400 23px 'Merienda One', Helvetica, sans-serif;
      margin-left: 100px;
      text-decoration: none;
-	 color: #888888;
+	 color: #222222;
  }
  
- .navBlock {
-    margin-top: -30px;
- }
-
- .annotation {
-     font: 400 22px 'Merienda One', Helvetica, sans-serif;
-     text-align: center;
-     margin-top: 20px;
-     margin-bottom: 20px;
-	 color: #114488;
- }
-
- .figure {
-     max-width: 100%;
-     display: block;
-     margin-left: auto;
-     margin-right: auto;
- }
-
  .clickable {
      cursor: pointer;
  }
