@@ -4,41 +4,52 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<link rel="stylesheet" type="text/css" href="style.css" />
 	<link href="http://fonts.googleapis.com/css?family=Merienda+One" rel="stylesheet" type="text/css">
-    <title>Home</title>
+    <title>Control Tutorials</title>
 	<script></script>
   </head>
   
   <body>
-  
-    <img alt="" style="margin-top: 100px;" src="pattipau.jpg" />
+    <h1>PS Control Tutorials</h1>
 	
-	<div style="margin-top: -300px;">
-      <a href="tutorials/tutorials.html" class="navLink">
-        Tutorials  &#8594;
-      </a> <br><br>
-	  <a target="_blank" rel="noopener noreferrer" 
-	     href="https://www.youtube.com/channel/UCuOEpAsvtLtMzoqzprwU5OA" 
-		 class="navLink">
-         Youtube  &#8594;
-	  </a> <br><br>	  
-	  <a target="_blank" rel="noopener noreferrer"
-	     href="https://github.com/PatrickSuhm" class="navLink">
-         Github  &#8594;
-	  </a> <br><br>
-	  <br> <br>
-      	  <br> <br>
-	  <br> <br>
-	  <br>
-    </div>
 	
-	<h2>About</h2>
-        <p>
-          I am a controls engineer from Germany. On this page you will 
-		  find some tutorials in the field of control, optimization, 
-		  simulation and modelling. If you have any questions or suggestions, feel 
-		  free to contact me: &nbsp;
-		  <a2 style="font-family: monospace; "> patrick dot suhm2 at gmail dot com </a2>
-        </p>
-	  
+	<p>
+          Hi, I am a controls engineer from Germany. This page mainly exists because I wanted to try web technology.
+		  Below you find some tutorials in the field of control.
+    </p>
+	
+	<table style="margin-left: auto; margin-right: auto; margin-top: 10px; margin-bottom: 50px;">
+		<tbody>
+			<tr>
+				<td>
+					<a href="modelling/modelling.html">
+					<img class = "zoom" src="modelling/modelling.svg"></a>
+				</td>
+				<td>
+					<a href="simulation/simulation.html">
+					<img class = "zoom" src="simulation/simulation.svg"></a>
+				</td>				
+			</tr>
+			<tr>
+				<td>
+					<a href="control/control.html">
+					<img class = "zoom" src="control/control.svg"></a>
+				</td>
+				<td>
+					<a href="optimization/optimization.html">
+					<img class = "zoom" src="optimization/optimization.svg"></a>
+				</td>				
+			</tr>
+		</tbody>
+	</table>
+	
+	<p>
+	The first thing I usually do in my "controller design workflow" is to model the system
+	with differential equations. Then I try to get an understanding of the behavior of
+	the system, by simulating the open loop plant. This part often serves as a check to see
+	if I modelled correctly and if the modelling depth is adequate. The next step is to close
+	the loop and develop a control strategy. Optimization plays a roll in all the steps. 
+	I often use optimization methods to find suitable trajectories to transit between operating points.
+	</p>
+	
   </body>
 </html>
