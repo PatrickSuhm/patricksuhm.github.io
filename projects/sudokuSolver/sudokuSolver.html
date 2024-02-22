@@ -1,0 +1,301 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>sudoku solver</title>
+	<link rel="icon" type="image/x-icon" href="../../favicon.png">
+	<link rel="stylesheet" type="text/css" href="../../style.css">
+	<script>
+		var nf = 81;
+		var rc = 9;
+		var rb = 3;
+		var values = new Array(nf);
+		var predef = new Array(nf);	// 1 is predefined 0 is not
+		var wrongInputIndex = new Array(2);
+		var steps = 0;
+
+		window.onload = function () {
+			rebuildPage();
+		}
+
+		function rebuildPage() {
+			var result = "<tr>";
+
+			for (var i = 0; i < nf; i++) {
+				result += "<td id = \"c" + i.toString() +
+					"\" style = \"border: 1px solid black\"	><input oninput=\"this.value=this.value.replace(/[^1-9]/g,'');" +
+					"\" autocomplete=\"off\" style = \" color:red; font-size:12pt; height: 30px; width: 30px; border:none; " +
+					"text-align:center; \" id = \"f" + i.toString() + "\" type=\"text\" size=\"1\" maxlength=\"1\"> </td> ";
+
+				if ((i + 1) % rc == 0 && i != 0) {
+					result += "</tr>";
+
+					if (i != nf - 1) {
+						result += "<tr>";
+					}
+				}
+			}
+
+			result += "</tr>";
+			document.getElementById('matrix').innerHTML = result;
+
+			for (var i = 0; i < nf; i++) {
+				if ((i + 1) % rb == 0) {
+					document.getElementById("c" + i.toString()).style.borderRight = "3px solid black";
+				}
+				if (i % rc == 0) {
+					document.getElementById("c" + i.toString()).style.borderLeft = "3px solid black";
+				}
+				if (i < rc || (i >= rb * rc && i < rb * rc + rc) || (i >= 2 * rb * rc && i < 2 * rb * rc + rc)) {
+					document.getElementById("c" + i.toString()).style.borderTop = "3px solid black";
+				}
+				if (i >= nf - rc) {
+					document.getElementById("c" + i.toString()).style.borderBottom = "3px solid black";
+				}
+			}
+			document.getElementById('myBut').innerHTML = "solve";
+			document.getElementById('feedbackText').innerHTML = "Type in your unsolved Sudoku and click";
+		}
+
+		function solve() {
+			steps = 0;
+			if (document.getElementById('myBut').innerHTML == "reset") {
+				rebuildPage();
+			}
+			else {
+				for (var i = 0; i < nf; i++) {
+					var temp = parseInt(document.getElementById("f" + i.toString()).value);
+					if (!isNaN(temp)) {
+						values[i] = temp;
+						predef[i] = 1;
+					}
+					else {
+						values[i] = -1;
+						predef[i] = 0;
+					}
+				}
+
+				undoMarking();
+				if (checkRows() && checkCols() && checkBlocks()) {
+					var t0 = performance.now();
+					if (solveingAlgo()) {
+						var t1 = performance.now();
+						fillFields();
+						document.getElementById('feedbackText').innerHTML = "Solved in " + (t1 - t0).toFixed(1).toString() + " milliseconds";
+						document.getElementById('myBut').innerHTML = "reset";
+					}
+					else {
+						document.getElementById('feedbackText').innerHTML = "Impossible to solve!";
+					}
+				}
+				else {
+					markWrongSpots();
+					document.getElementById('feedbackText').innerHTML = "Incorrect Input! Do you know the <a href=\"https://de.wikipedia.org/wiki/Sudoku\" target=\"_blank\">rules</a>? ";
+				}
+			}
+		}
+
+		function solveingAlgo() {
+			var i = -1;
+			var val = 1;
+			var state = 1;
+
+			while (true) {
+				switch (state) {
+
+					case 0:	/* Wert ueberpfuefen oder Wert hochzaehlen */
+						if (CheckValue(val, i)) {
+							values[i] = val;
+							state = 1;
+						}
+						else {
+							val = val + 1;
+							if (val > rc) {
+								state = 2;
+								values[i] = -1;
+							}
+						}
+						break;
+
+					case 1:	/* Index hochzaehlen */
+						i = i + 1;
+						if (i == nf) {
+							return true;	/* fertig :) */
+						}
+						if (predef[i] == 0) {
+							val = 1;
+							state = 0;
+						}
+						break;
+
+					case 2:	/* Index herunterzaehlen */
+						i = i - 1;
+						if (i < 0) {
+							fillFields();
+							return false;	/* unloesbar */
+						}
+						if (predef[i] == 0) {
+							if (values[i] + 1 <= rc) {
+								val = values[i] + 1;
+								state = 0;
+							}
+							else {
+								values[i] = -1;
+							}
+						}
+						break;
+				}
+				steps += 1;
+				if (steps > 1e7) { return false; }	/* unwahrscheinlich, dass es dann noch eine Lsg gibt */
+			}
+		}
+
+		function fillFields() {
+			for (var i = 0; i < nf; i++) {
+				if (predef[i] == 0) {
+					document.getElementById("f" + i.toString()).value = values[i];
+					document.getElementById("f" + i.toString()).style.color = "black";
+				}
+				document.getElementById("f" + i.toString()).readOnly = true;
+			}
+		}
+
+		function markWrongSpots() {
+			document.getElementById("f" + wrongInputIndex[0].toString()).style.backgroundColor = "yellow";
+			document.getElementById("f" + wrongInputIndex[1].toString()).style.backgroundColor = "yellow";
+		}
+
+		function undoMarking() {
+			for (var i = 0; i < nf; i++) {
+				document.getElementById("f" + i.toString()).style.backgroundColor = "white";
+			}
+		}
+
+		function checkRows() {
+			for (var i = 0; i < rc; i++) {
+				if (!rowOk(i)) { return false; }
+			}
+			return true;
+		}
+
+		function checkCols() {
+			for (var i = 0; i < rc; i++) {
+				if (!colOk(i)) { return false; }
+			}
+			return true;
+		}
+
+		function checkBlocks() {
+			for (var i = 0; i < rc; i++) {
+				if (!blockOk(i)) { return false; }
+			}
+			return true;
+		}
+
+		function rowOk(row) {
+			for (var i = 0; i < rc; i++) {
+				var testVal = values[getIndexFromRowAndCol(row, i)];
+				if (testVal != -1) {
+					for (var j = 0; j < rc; j++) {
+						if (testVal == values[getIndexFromRowAndCol(row, j)] && i != j) {
+							wrongInputIndex[0] = getIndexFromRowAndCol(row, i);
+							wrongInputIndex[1] = getIndexFromRowAndCol(row, j);
+							return false;
+						}
+					}
+				}
+			}
+			return true;
+		}
+
+		function colOk(col) {
+			for (var i = 0; i < rc; i++) {
+				var testVal = values[getIndexFromRowAndCol(i, col)];
+				if (testVal != -1) {
+					for (var j = 0; j < rc; j++) {
+						if (testVal == values[getIndexFromRowAndCol(j, col)] && i != j) {
+							wrongInputIndex[0] = getIndexFromRowAndCol(i, col);
+							wrongInputIndex[1] = getIndexFromRowAndCol(j, col);
+							return false;
+						}
+					}
+				}
+			}
+			return true;
+		}
+
+		function blockOk(block) {
+			for (var i = 0; i < rc; i++) {
+				var testVal = values[getIndexFromBlockAndBlockIndex(block, i)];
+				if (testVal != -1) {
+					for (var j = 0; j < rc; j++) {
+						if (testVal == values[getIndexFromBlockAndBlockIndex(block, j)] && i != j) {
+							wrongInputIndex[0] = getIndexFromBlockAndBlockIndex(block, i);
+							wrongInputIndex[1] = getIndexFromBlockAndBlockIndex(block, j);
+							return false;
+						}
+					}
+				}
+			}
+			return true;
+		}
+
+		function CheckValue(val, i) {
+			var row = getRowFromIndex(i);
+			var col = getColFromIndex(i);
+			var block = getBlockFromIndex(i);
+			for (var j = 0; j < rc; j++) {
+				if (val == values[getIndexFromRowAndCol(row, j)] ||
+					val == values[getIndexFromRowAndCol(j, col)] ||
+					val == values[getIndexFromBlockAndBlockIndex(block, j)]) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		function getIndexFromRowAndCol(row, col) {
+			return row * rc + col;
+		}
+
+		function getRowFromIndex(index) {
+			return Math.floor(index / rc);
+		}
+
+		function getColFromIndex(index) {
+			return index - getRowFromIndex(index) * rc;
+		}
+
+		function getIndexFromBlockAndBlockIndex(block, blockIndex) {
+			var rowInBlock = Math.floor(blockIndex / rb);
+			var colInBlock = blockIndex - Math.floor(blockIndex / rb) * rb;
+
+			var row = rb * Math.floor(block / rb) + rowInBlock;
+			var col = rb * (block - rb * Math.floor(block / rb)) + colInBlock;
+
+			return getIndexFromRowAndCol(row, col);
+		}
+
+		function getBlockFromIndex(index) {
+			var row = getRowFromIndex(index);
+			var col = getColFromIndex(index);
+
+			return rb * Math.floor(row / rb) + Math.floor(col / rb);
+		}
+
+
+	</script>
+</head>
+
+<body>
+	<a href="../../index.html">- home -</a>
+
+	<h2> sudoku solver </h2>
+	<div style="text-align: center;">
+		<p><span id="feedbackText"> </span> <button id="myBut" onclick="solve()"></button>
+		<table id="matrix" style="border-collapse: collapse; margin: 0 auto;"> </table>
+	</div>
+
+</body>
+
+</html>

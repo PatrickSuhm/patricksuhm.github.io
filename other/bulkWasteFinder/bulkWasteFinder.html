@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bulk Waste Finder</title>
+    <link rel="icon" type="image/x-icon" href="../../favicon.png">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <style>
+        body {
+            font-family: monospace;
+            font-size: 14px;
+            background-color: #ddd;
+            max-width: 1000px;
+            margin: 20px auto;
+            align-items: center;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #map {
+            height: 80vh;
+            width: 100vh;
+            margin: 10px;
+        }
+
+        .vspace {
+            margin-bottom: 5px;
+        }
+
+        #date {
+            display: none;
+        }
+
+        a {
+            cursor: pointer;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="../../index.html">- home -</a>
+    <div id="container">
+        <div class="vspace">Bulk Waste Finder:</div><br><br>
+        <input class="vspace" type="password" id="password" placeholder="Password required"
+            onkeyup="passwordSubmit(event)"><br><br>
+        <input type="date" id="date" onchange="dateSubmit()">
+        <div id="map"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="data.js"></script>
+    <script>
+        var markers = [];
+        document.getElementById('date').value = '';
+        var dAr = [];
+        var map;
+
+        function getData(text, key) {
+            var dec = atob(text);
+            var lonKey = key.repeat(Math.floor(dec.length / key.length)) + key.substring(0, dec.length % key.length);
+            var decr = Array.from(dec, (char, index) => String.fromCharCode(char.charCodeAt(0) ^ lonKey.charCodeAt(index))).join('');
+            return decr;
+        }
+
+        function passwordSubmit(event) {
+            if (event.keyCode === 13 && !map) {
+                var pw = document.getElementById("password").value;
+                decrypted = getData(data, pw);
+                dAr = decrypted.split(";");
+                if (parseInt(dAr[1]) >= parseInt("3750", 8) && parseInt(dAr[1]) < parseInt("4064", 8)) {
+                    var dateInputField = document.getElementById('date');
+                    dateInputField.style.display = 'block';
+                    dateInputField.setAttribute('min', dAr[1] + '-01-01');
+                    dateInputField.setAttribute('max', dAr[1] + '-12-31');
+                    map = L.map('map').setView([parseFloat(dAr[2].split(",")[0]),
+                    parseFloat(dAr[2].split(",")[1])], 12);
+                    dAr.splice(0, 3);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; OpenStreetMap contributors'
+                    }).addTo(map);
+                }
+            }
+        }
+
+        window.addEventListener('resize', function () {
+            if (map) {
+                map.invalidateSize();
+            }
+        });
+
+        function dateSubmit() {
+            selectedDate = document.getElementById('date').value.split('-').reverse().join('.');
+            markers.forEach(marker => { map.removeLayer(marker); });
+            for (var i = 0; i < dAr.length; i++) {
+                if (dAr[i].slice(0, 10) == selectedDate) {
+                    var res = dAr[i].split(",").slice(1);
+                    for (var j = 0; j < res.length; j++) {
+                        if (j % 2 == 0) {
+                            markers.push(L.marker([res[j], res[j + 1]]).addTo(map));
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

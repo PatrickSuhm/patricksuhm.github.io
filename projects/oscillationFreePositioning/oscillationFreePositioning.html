@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>oscillation free positioning</title>
+	<link rel="icon" type="image/x-icon" href="../../favicon.png">
+	<link rel="stylesheet" type="text/css" href="../../style.css">
+	<link rel="stylesheet" href="../../libs/katex/katex.css">
+	<script defer type="text/javascript" src="../../libs/katex/katex.js"></script>
+	<script defer src="../../libs/katex/katexAutoRender.js" onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+	<a href="../../index.html">- home -</a>
+
+	<h2> oscillation free load positioning </h2>
+
+	<p>I hacked my 3d printer to test some control algorithms for oscillation free load positioning.
+		On the left side, a polynomial trajectory of degree five is used as a setpoint for the printer cart.
+		On the right side, the same trajectory is used as a setpoint for the load:
+
+	<div style="max-width:600px; margin: auto;"><video src="fad.mp4" controls playsinline preload="metadata"> </video>
+	</div>
+
+	<p>To find the cart trajectory, the load trajectory is transformed into cart coordinates, taking system dynamics
+		into account.
+		The trajectory time is the same for both movements. Thats the big advantage of this method, compared to input
+		shaping
+		or other filter methods.
+
+	<p>It also works for a spring pendulum. (Since it's also a harmonic oscillator)
+		I attached a rubber band to the load and positioned the cart vertically:
+
+	<div style="max-width:600px; margin: auto;"><video src="fed.mp4" controls playsinline preload="metadata"> </video>
+	</div>
+
+	<p>The math is astoundingly simple. Just model the system in the following way:
+	<p>
+	<div style="margin:auto; max-width:250px;"><img src="diagram.jpg"></div>
+
+	<p>\(m_c\) is the cart mass, \(m_e\) is the loadmass, \(F\) describes the force that pushes the cart, \(c_e\) is the
+		load stiffness, \(x_c\) is the cart position
+		and \(x_e\) is the load position.
+
+	<p>For the trajectory planning we are only interested in the transformation between cart and load coordinates. The
+		balance of forces for \(m_e\) gives:
+
+	<div>\[ \begin{equation} m_e \ddot{x}_e = c_e(x_c-x_e) \end{equation} \]</div>
+
+	<p>Reordering reveales:
+
+	<div>\[ \begin{equation} x_c = x_e + \frac{m_e}{c_e}\ddot{x}_e \end{equation} \]</div>
+
+	<p>With equation (2) it is possible to plan a two times differentiable trajectory for the load and receive the
+		corresponding cart trajectory.
+		In order to get the parameters \(m_e\) and \(c_e\) it's helpfull to realize that the period for the
+		<a href="https://en.wikipedia.org/wiki/Harmonic_oscillator" target="_blank">harmonic oscillator </a> is defined
+		by:
+
+	<div>\[T=\frac{2\pi}{\sqrt{\frac{c}{m}}}\] </div>
+
+	The most accurate way to determine \(\frac{m_e}{c_e}\) in an experiment at home is therefore simply to meassure the
+	time for a number of oscillations.
+	And thats exactly what I did to get the results you see in the videos.
+
+	<p>For the load trajectory I used:
+	<div>\[x_e = x_{e}^{start} + (x_{e}^{end}-x_{e}^{start}) \left( 10 \left ( \frac{t}{T} \right ) ^3 -
+		15\left(\frac{t}{T}\right)^4 + 6\left(\frac{t}{T}\right)^5 \right) \]</div>
+
+	<p>I ended up writing my own stepper motor driver code because all the libraries I tried where to slow in generating
+		the steps on my Arduino Uno.
+
+</body>
+
+</html>

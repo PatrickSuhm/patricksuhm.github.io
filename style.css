@@ -1,0 +1,28 @@
+
+body{
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    background-color: #ddd;
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0px 30px;
+    margin-bottom: 150px;
+}
+
+a{
+    cursor: pointer;
+    text-decoration: none;
+}
+
+h2{
+	text-align: center;
+}
+
+video{
+	max-width: 100%;
+}
+
+img{
+	max-width: 100%;
+}
