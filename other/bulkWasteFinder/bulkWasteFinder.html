@@ -3,6 +3,7 @@
 
 <head>
     <title>Bulk Waste Finder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../../favicon.png">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
     <style>
@@ -23,6 +24,7 @@
             display: none;
             margin: 10px 0px;
         }
+
         .pw {
             margin: 20px 0px;
         }
@@ -37,11 +39,12 @@
 
 <body>
     <a href="../../index.html">- home -</a>
-    <div>
+    <br>
     <input class="pw" type="password" id="password" placeholder="Password required" onkeyup="passwordSubmit(event)">
     <input class="date" type="date" id="date" onchange="dateSubmit()">
-    </div>
     <div class="map" id="map"></div>
+
+
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="data.js"></script>
