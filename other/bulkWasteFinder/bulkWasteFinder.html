@@ -10,29 +10,24 @@
             font-family: monospace;
             font-size: 14px;
             background-color: #ddd;
-            max-width: 1000px;
-            margin: 20px auto;
+            max-width: 900px;
             align-items: center;
+            margin: 0 auto;
+            padding: 20px;
         }
 
-        #container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .container {
+            padding: 0px 0px;
         }
 
-        #map {
-            height: 80vh;
-            width: 100vh;
-            margin: 10px;
+        .map {
+            height: 600px;
+            width: 100%;
         }
 
-        .vspace {
-            margin-bottom: 5px;
-        }
-
-        #date {
+        .date {
             display: none;
+            margin: 10px 0px;
         }
 
         a {
@@ -43,13 +38,12 @@
 </head>
 
 <body>
-    <a href="../../index.html">- home -</a>
-    <div id="container">
-        <div class="vspace">Bulk Waste Finder:</div><br><br>
-        <input class="vspace" type="password" id="password" placeholder="Password required"
-            onkeyup="passwordSubmit(event)"><br><br>
-        <input type="date" id="date" onchange="dateSubmit()">
-        <div id="map"></div>
+    <a href="../../index.html">- home -</a><br><br>
+    
+    <div class="container">
+        <input type="password" id="password" placeholder="Password required" onkeyup="passwordSubmit(event)">
+        <input class="date" type="date" id="date" onchange="dateSubmit()">
+        <div class="map" id="map"></div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -77,11 +71,12 @@
                     dateInputField.style.display = 'block';
                     dateInputField.setAttribute('min', dAr[1] + '-01-01');
                     dateInputField.setAttribute('max', dAr[1] + '-12-31');
+                    document.getElementById('password').style.display = 'none';
                     map = L.map('map').setView([parseFloat(dAr[2].split(",")[0]),
                     parseFloat(dAr[2].split(",")[1])], 12);
                     dAr.splice(0, 3);
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; OpenStreetMap contributors'
+                        attribution: '© OpenStreetMap contributors'
                     }).addTo(map);
                 }
             }
