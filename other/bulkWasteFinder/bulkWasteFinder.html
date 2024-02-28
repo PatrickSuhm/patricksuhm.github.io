@@ -35,16 +35,6 @@
             font-size: 14px;
         }
 
-        .custom-red-icon {
-            background: red;
-            border-radius: 50%;
-            width: 15px;
-            height: 15px;
-            text-align: center;
-            line-height: 15px;
-            color: white;
-        }
-
         #leftBorder {
             position: fixed;
             top: 0;
@@ -103,28 +93,19 @@
                         attribution: '© OpenStreetMap contributors'
                     }).addTo(map);
 
-                    if ('geolocation' in navigator) {
-                        var marker;
-                        navigator.geolocation.watchPosition(
-                            function (position) {
-                                var lat = position.coords.latitude;
-                                var lon = position.coords.longitude;
-                                if (marker) {
-                                    map.setView([lat, lon], map.getZoom());
-                                    marker.setLatLng([lat, lon]);
-                                } else {
-                                    var redIcon = L.divIcon({
-                                        className: 'custom-red-icon',
-                                        iconSize: null,
-                                        iconAnchor: [12, 41],
-                                        popupAnchor: [1, -34],
-                                    });
-                                    marker = L.marker([lat, lon], { icon: redIcon }).addTo(map).bindPopup('Your Location').openPopup();
-                                    map.setView([lat, lon], 13);
-                                }
-                            }, function (error) { }
-                        );
+                    var redIcon = new L.Icon({
+                        iconUrl: 'red.png',
+                        iconSize: [20, 30],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34]
+                    });
+
+                    map.locate({ setView: true, maxZoom: 16 });
+                    function onLocationFound(e) {
+                        L.marker(e.latlng, { icon: redIcon }).addTo(map);
                     }
+                    map.on('locationfound', onLocationFound);
+
                 }
             }
         }
