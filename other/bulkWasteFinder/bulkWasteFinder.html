@@ -34,18 +34,42 @@
             text-decoration: none;
             font-size: 14px;
         }
+
+        .custom-red-icon {
+            background: red;
+            border-radius: 50%;
+            width: 15px;
+            height: 15px;
+            text-align: center;
+            line-height: 15px;
+            color: white;
+        }
+
+        #leftBorder {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 10px;
+            color: #be3737;
+        }
+
+        #content {
+            margin-left: 10px;
+            padding: 20px;
+        }
     </style>
 </head>
 
 <body>
-    <a href="../../index.html">- home -</a>
-    <br>
-    <input class="pw" type="password" id="password" placeholder="Password required" onkeyup="passwordSubmit(event)">
-    <input class="date" type="date" id="date" onchange="dateSubmit()">
-    <div class="map" id="map"></div>
-
-
-
+    <div id="leftBorder"></div>
+    <div id="content">
+        <a href="../../index.html">- home -</a>
+        <br>
+        <input class="pw" type="password" id="password" placeholder="Password required" onkeyup="passwordSubmit(event)">
+        <input class="date" type="date" id="date" onchange="dateSubmit()">
+        <div class="map" id="map"></div>
+    </div>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="data.js"></script>
     <script>
@@ -78,6 +102,29 @@
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '© OpenStreetMap contributors'
                     }).addTo(map);
+
+                    if ('geolocation' in navigator) {
+                        var marker;
+                        navigator.geolocation.watchPosition(
+                            function (position) {
+                                var lat = position.coords.latitude;
+                                var lon = position.coords.longitude;
+                                if (marker) {
+                                    map.setView([lat, lon], map.getZoom());
+                                    marker.setLatLng([lat, lon]);
+                                } else {
+                                    var redIcon = L.divIcon({
+                                        className: 'custom-red-icon',
+                                        iconSize: null,
+                                        iconAnchor: [12, 41],
+                                        popupAnchor: [1, -34],
+                                    });
+                                    marker = L.marker([lat, lon], { icon: redIcon }).addTo(map).bindPopup('Your Location').openPopup();
+                                    map.setView([lat, lon], 13);
+                                }
+                            }, function (error) { }
+                        );
+                    }
                 }
             }
         }
