@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Schwingungsarmes Positionieren</title>
+	<link rel="icon" type="image/x-icon" href="../../favicon.png">
+	<link rel="stylesheet" type="text/css" href="../../style.css">
+	<link rel="stylesheet" href="../../libs/katex/katex.css">
+	<script defer type="text/javascript" src="../../libs/katex/katex.js"></script>
+	<script defer src="../../libs/katex/katexAutoRender.js" onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+	<a href="../../index.html">- home -</a>
+
+	<h2> Schwingungsarmes Positionieren </h2>
+
+	<p> Bei diesem Projekt wollte ich testen wie schwierig es ist, eine an einem Faden aufgehängte Last, schwingungsarm zu positionieren. So etwas können Kräne und elastische Roboter gebrauchen, damit die Last schneller im Zielpunkt abgelegt werden kann. Als Testplattform habe ich meinen 3D-Drucker teilweise zerlegt, um die Achsen ohne die Druckerelektronik direkt ansteuern zu können. 
+
+	<p> Auf der linken Seite des Videos wird eine polynomiale Trajektorie fünften Grades als Sollwert für den
+		Schlitten vorgegeben. Auf der rechten Seite wird die selbe Trajektorie als Sollwert für die Last verwendet und die benötigte Schlittentrajektorie dann unter Berücksichtigung der Systemdynamik aus der Lasttrajektorie berechnet:
+
+	<div style="max-width:600px; margin: auto;"><video src="fad.mp4" controls playsinline preload="metadata"> </video>
+	</div>
+
+	<p> Das Ganze funktioniert genauso für ein Federpendel. Ich habe dafür ein Gummiband zwischen Last und Schlitten
+		angebracht und den Schlitten vertikal positioniert:
+
+	<div style="max-width:600px; margin: auto;"><video src="fed.mp4" controls playsinline preload="metadata"> </video>
+	</div>
+
+	<p> Die Trajektorienzeit ist für beide Bewegungen gleich. Das ist der große Vorteil der verwendeten
+		Methode im Vergleich zum sogenannten "Input-Shaping" oder anderen Filtermethoden. Das verwendete Verfahren resultiert direkt aus der Transformation auf Regelungsnormalform. Es funktioniert also für alle Systeme die 
+		durch ein lineares zustandssteuerbares System angenähert werden können.
+
+	
+
+
+</body>
+
+</html>
