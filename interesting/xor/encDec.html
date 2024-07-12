@@ -17,28 +17,27 @@
             const message = document.getElementById('message').value;
             const key = document.getElementById('key').value;
             const encryptedMessage = xorEncryptDecrypt(message, key);
-            document.getElementById('result').textContent = `Encrypted message: ${btoa(encryptedMessage)}`;
+            document.getElementById('result').textContent = `${btoa(unescape(encodeURIComponent(encryptedMessage)))}`;
         }
 
         function decryptMessage() {
-            const message = atob(document.getElementById('message').value);
+            const message = decodeURIComponent(escape(atob(document.getElementById('message').value)));
             const key = document.getElementById('key').value;
             const decryptedMessage = xorEncryptDecrypt(message, key);
-            document.getElementById('result').textContent = `Decrypted message: ${decryptedMessage}`;
+            document.getElementById('result').textContent = `${decryptedMessage}`;
         }
     </script>
 </head>
 <body>
     <br>
-    <label for="message">Message:</label>
-    <input type="text" id="message" placeholder="Enter message">
+    <textarea id="message" placeholder="Enter message" rows="4" cols="50"></textarea>
     <br>
-    <label for="key">Key:</label>
     <input type="text" id="key" placeholder="Enter key">
     <br>
     <br>
     <button onclick="encryptMessage()">Encrypt</button>
     <button onclick="decryptMessage()">Decrypt</button>
-    <pre id="result"></pre>
+    <br><br>
+    <textarea readonly id="result" placeholder="Output" rows="2" cols="50"></textarea>
 </body>
 </html>
