@@ -41,7 +41,7 @@
 <body>
   <a href="../../index.html">- home -</a>
   <h2> Numerische Lösung von ODEs </h2>
-  <p>Hier möchte ich anhand eines einfachen Beispiels zeigen wie gewöhnliche Differentialgleichungen (nachfolgend ODEs) numerisch gelöst werden können. Angenommen wir haben ein Federpendel und möchten wissen an welcher Position \(s\) sich die Masse \(m\) nach einer Sekunde befindet, wenn wir sie zum Zeitpunkt \(t=0\) bei der Anfangsauslenkung \(s_0\) losgelassen haben.
+  <p>Hier möchte ich anhand eines einfachen Beispiels zeigen wie gewöhnliche Differentialgleichungen (ODEs) numerisch gelöst werden können. Angenommen wir haben ein Federpendel und möchten wissen an welcher Position \(s\) sich die Masse \(m\) nach einer Sekunde befindet, wenn wir sie zum Zeitpunkt \(t=0\) bei der Anfangsauslenkung \(s_0\) losgelassen haben.
 
   <p>
   <div style="margin:auto; max-width:100px;"><img src="pendulum.png"></div>
@@ -51,11 +51,11 @@
     dritte Möglichkeit wäre, die Bewegungsgleichung numerisch zu lösen. Das ist oft der einzig mögliche Weg, wenn ein
     Experiment zu aufwändig und die analytische Lösung unmöglich zu finden ist.
 
-  <p> Für den Fall des Federpendels ist die Differentialgleichungen, welche die Bewegung beschreibt, denktbar einfach:
+  <p> Für den Fall des Federpendels ist die Differentialgleichung, welche die Bewegung beschreibt, denktbar einfach:
 
   <p> <div>\[ \begin{equation} m \ddot{s}(t) + cs(t) = 0 \end{equation} \]</div>
 
-  <p> Die analytische Lösung dieser gewöhnlichen Differentialgleichungen zweiten Grades lautet:
+  <p> Die analytische Lösung dieser ODE zweiten Grades lautet:
   <p> <div>\[ \begin{equation}s(t) = s_0 \cos(\sqrt\frac{c}{m} ~t) \end{equation} \]</div>
 
   <p> Unsere initiale Frage können wir damit also beantworten. 
@@ -102,7 +102,7 @@
     \]
     <p>Das Runge-Kutta-Verfahren vierter Ordnung (RK4) benötigt vier Funktionsauswertungen wogegen das Eulerverfahren mit nur einer Funktionsauswertung auskommt. 
       
-    <p>Das Ergebnis der Integration für das Federpendel ist für beide Verfahren zusammen mit der analytischen Lösung nachfolgend dargestellt \((k = 10^3, m = 1, h = 10^{-3})\):
+    <p>Das Ergebnis der Integration für das Federpendel ist für beide Verfahren zusammen mit der analytischen Lösung nachfolgend dargestellt \((c = 10^3\frac{N}{m}, m = 1kg, h = 10^{-3}s)\):
     
     <p> <div style="margin:auto; max-width:500px;"><img src="fixedStep.png"></div>
 
@@ -136,7 +136,7 @@ def step(s, x, *params):  # Runge Kutta Fehlberg Methode
 
   <p>Und hier das Ergebnis mit variabler Schrittweite:
   <p> <div style="margin:auto; max-width:500px;"><img src="variableStep.png"></div>
-  <p>In Bereichen in denen sich die Steigung schnell ändert ist die Schrittweite gering. Bereiche mit kleiner Steigungsänderung werden hingegen sehr schnell durchschritten. Das spart Funktionsauswertungen und kann bei gleicher Genauigkeit deutlich schneller zur Lösung führen. Insbesondere bei steifen Differentialgleichungen die sowohl kleine als große Eigenwerte aufweisen, sind Solver mit variabler Schrittweite der Standard.
+  <p>In Bereichen in denen sich die Steigung schnell ändert ist die Schrittweite gering. Bereiche mit kleiner Steigungsänderung werden hingegen sehr schnell durchschritten. Das spart Funktionsauswertungen und kann bei gleicher Genauigkeit deutlich schneller zur Lösung führen. Insbesondere bei steifen ODEs die sowohl sehr kleine als sehr große Eigenwerte aufweisen, sind Solver mit variabler Schrittweite der Standard.
 
 </body>
 
