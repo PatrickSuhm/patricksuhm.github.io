@@ -101,11 +101,11 @@
     \]
     <p>Das Runge-Kutta-Verfahren vierter Ordnung (RK4) benötigt vier Funktionsauswertungen wogegen das Eulerverfahren mit nur einer Funktionsauswertung auskommt. 
       
-    <p>Das Ergebnis der Integration für das Federpendel ist für beide Verfahren zusammen mit der analytischen Lösung nachfolgend dargestellt \((c = 10^3\frac{N}{m}, m = 1kg, h = 10^{-3}s)\):
+    <p>Das Ergebnis der Integration für das Federpendel ist für beide Verfahren zusammen mit der exakten/analytischen Lösung nachfolgend dargestellt \((c = 10^3\frac{N}{m}, m = 1kg, h = 10^{-3}s)\):
     
     <p> <div style="margin:auto; max-width:500px;"><img src="fixedStep.png"></div>
 
-    Während bei dieser Schrittweite das Runge-Kutta-Verfahren nahezu exakt mit der analytischen Lösung übereinstimmt, sind beim Euler-Verfahren schon deutliche Abweichungen zu erkennen.  
+    Während bei dieser Schrittweite das Runge-Kutta-Verfahren nahezu perfekt mit der analytischen Lösung übereinstimmt, sind beim Euler-Verfahren schon deutliche Abweichungen zu erkennen.  
 
     <p>Zum Abschluss möchte ich noch zeigen wie eine adaptive Schrittweitensteuerung umgesetzt werden kann. Die Grundidee dahinter ist, die Integration mit Verfahren verschiedener Ordnung durchzuführen und je nach Abweichung zwischen den Verfahren, die Schrittweite anzupassen. Dabei geht man davon aus, dass ein RK5 Verfahren genauere Ergebnisse liefert als ein RK4 Verfahren. Wenn der Fehler zwischen den beiden zu groß wird, wird die Schrittweite reduziert. Die beschriebene Methode nennt sich dann Runge-Kutta-Fehlberg-Methode oder kurz RK45.
 
