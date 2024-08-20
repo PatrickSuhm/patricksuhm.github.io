@@ -107,7 +107,7 @@
 
     Während bei dieser Schrittweite das Runge-Kutta-Verfahren nahezu perfekt mit der analytischen Lösung übereinstimmt, sind beim Euler-Verfahren schon deutliche Abweichungen zu erkennen.  
 
-    <p>Zum Abschluss möchte ich noch zeigen wie eine adaptive Schrittweitensteuerung umgesetzt werden kann. Die Grundidee dahinter ist, die Integration mit Verfahren verschiedener Ordnung durchzuführen und je nach Abweichung zwischen den Verfahren, die Schrittweite anzupassen. Dabei geht man davon aus, dass ein RK5 Verfahren genauere Ergebnisse liefert als ein RK4 Verfahren. Wenn der Fehler zwischen den beiden zu groß wird, wird die Schrittweite reduziert. Die beschriebene Methode nennt sich dann Runge-Kutta-Fehlberg-Methode oder kurz RK45.
+    <p>Zum Abschluss möchte ich noch zeigen wie eine adaptive Schrittweitensteuerung umgesetzt werden kann. Die Grundidee dahinter ist, die Integration mit Verfahren verschiedener Ordnung durchzuführen und je nach Abweichung zwischen den Verfahren, die Schrittweite anzupassen. Dabei geht man davon aus, dass ein RK5 Verfahren genauere Ergebnisse liefert als ein RK4 Verfahren. Wenn der Fehler zwischen den beiden zu groß wird, wird die Schrittweite reduziert. Die nachfolgend verwendete Methode nennt sich Runge-Kutta-Fehlberg-Methode oder kurz RK45.
 
     <p><div style="max-width:750px; margin:auto;">
   <textarea id="code0">
