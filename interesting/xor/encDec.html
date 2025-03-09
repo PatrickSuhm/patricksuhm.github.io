@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encrypt/Decrypt</title>
+    <script>
+        function xorEncryptDecrypt(message, key) {
+            let result = '';
+            for (let i = 0; i < message.length; i++) {
+                result += String.fromCharCode(message.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+            }
+            return result;
+        }
+
+        function encryptMessage() {
+            const message = document.getElementById('message').value;
+            const key = document.getElementById('key').value;
+            const encryptedMessage = xorEncryptDecrypt(message, key);
+            document.getElementById('result').textContent = `${btoa(unescape(encodeURIComponent(encryptedMessage)))}`;
+        }
+
+        function decryptMessage() {
+            const message = decodeURIComponent(escape(atob(document.getElementById('message').value)));
+            const key = document.getElementById('key').value;
+            const decryptedMessage = xorEncryptDecrypt(message, key);
+            document.getElementById('result').textContent = `${decryptedMessage}`;
+        }
+    </script>
+</head>
+<body>
+    <br>
+    <textarea id="message" placeholder="Enter message" rows="4" cols="50"></textarea>
+    <br>
+    <input type="password" id="key" placeholder="Enter key">
+    <br>
+    <br>
+    <button onclick="encryptMessage()">Encrypt</button>
+    <button onclick="decryptMessage()">Decrypt</button>
+    <br><br>
+    <textarea readonly id="result" placeholder="Output" rows="4" cols="50"></textarea>
+</body>
+</html>
