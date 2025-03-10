@@ -6,15 +6,17 @@
   <title>Fingerabdruck</title>
   <link rel="icon" type="image/x-icon" href="../../favicon.png">
   <link rel="stylesheet" type="text/css" href="../../style.css">
+  <style>strong {margin-bottom: 7px;display: inline-block;}</style>
 </head>
 
 <body>
     <a href="../../index.html"><ul> <li>home</li> </ul></a>
     <h2> Dein Fingerabdruck im Netz </h2>
-    <p> Folgende Daten (und noch einiges mehr) können von einer Website ohne deine Zustimmung erhoben werden. Damit ist es möglich dich eindeutig zu identifizieren
-        und über Websiten hinweg zu verfolgen ohne Cookies zu setzen. 
+    <p> Folgende Daten (und noch viele mehr) können von einer Website ohne deine Zustimmung erhoben werden. Damit kann dich eine Website identifizieren ohne Cookies zu setzen.
 
-    <p><br><strong>User-Agent:</strong> <span id="userAgent"></span>
+    <br><br><strong>User-Agent:</strong> <span id="userAgent"></span>
+    <br><strong>IP-Adresse:</strong> <span id="ip"></span>
+    <br><strong>Provider:</strong> <span id="provider"></span>
     <br><strong>Browser Sprache:</strong> <span id="language"></span>
     <br><strong>Referer:</strong> <span id="referer"></span>
     <br><strong>Bildschirmauflösung:</strong> <span id="screenResolution"></span>
@@ -29,8 +31,6 @@
     <br><strong>Bot / Webdriver:</strong> <span id="webdriver"></span>
     <br><strong>WebGL Fingerprint:</strong> <span id="webglFingerprint"></span>
     <br><strong>Canvas Fingerprint Hash:</strong> <span id="canvasFingerprint"></span>
-
-    <br><canvas id="myc" width="200" height="100"></canvas>
 
     <script>
         document.getElementById("userAgent").textContent = navigator.userAgent;
@@ -69,12 +69,12 @@
             return (hash >>> 0).toString(16);
         }
         function getCanvasFingerprint() {
-            var canvas = document.getElementById("myc");
+            var canvas = document.createElement('canvas');
             var ctx = canvas.getContext('2d');
             ctx.textBaseline = 'top';
             ctx.font = '16px Arial';
             ctx.fillStyle = 'red';
-            ctx.fillText('Hello my unique friend :)', 10, 10);
+            ctx.fillText('Hello my friend', 10, 10);
             ctx.strokeStyle = 'blue';
             ctx.lineWidth = 2;
             ctx.strokeRect(5, 30, 100, 50);
@@ -84,6 +84,21 @@
             return hashString(dataURL);
         }
         document.getElementById("canvasFingerprint").textContent = getCanvasFingerprint();
+
+        function getIpInfo(){
+            fetch('https://ipinfo.io/json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('ip').textContent = data.ip;
+                document.getElementById('provider').textContent = data.org;
+            })
+            .catch(error => {
+                document.getElementById('ip').textContent = 'nicht verfügbar';
+                document.getElementById('provider').textContent = 'nicht verfügbar';
+            });
+        }
+        getIpInfo();
+
     </script>
 
     
