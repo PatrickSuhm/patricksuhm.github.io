@@ -4,6 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encrypt/Decrypt</title>
+    <style>#passwordField {display: none;}</style>
+</head>
+<body>
+    <br>
+    <textarea id="message" placeholder="Nachricht eingeben" rows="4" cols="50"></textarea>
+    <br>
+    <label>
+        <input type="checkbox" id="usePwCheckbox"> Passwort verwenden
+    </label>
+    <label>
+        <input type="checkbox" id="useDateCheckbox" checked> Datum verwenden
+    </label>
+    <br>
+    <span id="passwordField"><input type="password" id="key" placeholder="Passwort eingeben"></span>
+    <br>
+    <button onclick="encryptMessage()">Verschlüsseln</button>
+    <button onclick="decryptMessage()">Entschlüsseln</button>
+    <br><br>
+    <textarea readonly id="result" placeholder="Verschlüsselte Nachricht" rows="4" cols="50"></textarea>
+
+
     <script>
         function xorEncryptDecrypt(message, key) {
             let result = '';
@@ -13,31 +34,57 @@
             return result;
         }
 
+        function hashString(str) {
+            let hash = 0x811c9dc5;
+            for (let i = 0; i < str.length; i++) {
+                hash ^= str.charCodeAt(i);
+                hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
+            }
+            return (hash >>> 0).toString(16);
+        }
+
+        function getKey()
+        {
+            key = "";
+            if(document.getElementById('usePwCheckbox').checked)
+            {
+                key += document.getElementById('key').value;
+            }
+            if(document.getElementById("useDateCheckbox").checked)
+            {
+                const currentDate = new Date();
+                key += currentDate.toISOString().split('T')[0];
+            }
+            key += "d3B98zhpZ";
+            key = hashString(key);
+            return key;
+        }
+
         function encryptMessage() {
             const message = document.getElementById('message').value;
-            const key = document.getElementById('key').value;
+            const key = getKey();
             const encryptedMessage = xorEncryptDecrypt(message, key);
             document.getElementById('result').textContent = `${btoa(unescape(encodeURIComponent(encryptedMessage)))}`;
         }
 
         function decryptMessage() {
             const message = decodeURIComponent(escape(atob(document.getElementById('message').value)));
-            const key = document.getElementById('key').value;
+            const key = getKey();
             const decryptedMessage = xorEncryptDecrypt(message, key);
             document.getElementById('result').textContent = `${decryptedMessage}`;
         }
+
+        const pwCheckbox = document.getElementById('usePwCheckbox');
+        const passwordField = document.getElementById('passwordField');
+        pwCheckbox.addEventListener('change', function() {
+            if (pwCheckbox.checked) {
+                passwordField.style.display = 'block';
+            } else {
+                passwordField.style.display = 'none';
+            }
+        });
+
     </script>
-</head>
-<body>
-    <br>
-    <textarea id="message" placeholder="Enter message" rows="4" cols="50"></textarea>
-    <br>
-    <input type="password" id="key" placeholder="Enter key">
-    <br>
-    <br>
-    <button onclick="encryptMessage()">Encrypt</button>
-    <button onclick="decryptMessage()">Decrypt</button>
-    <br><br>
-    <textarea readonly id="result" placeholder="Output" rows="4" cols="50"></textarea>
+
 </body>
 </html>
