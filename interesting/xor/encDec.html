@@ -77,12 +77,20 @@
         }
 
         const pwCheckbox = document.getElementById('usePwCheckbox');
+        const dateCheckbox = document.getElementById('useDateCheckbox');
         const passwordField = document.getElementById('passwordField');
         pwCheckbox.addEventListener('change', function() {
             if (pwCheckbox.checked) {
                 passwordField.style.display = 'block';
             } else {
                 passwordField.style.display = 'none';
+                dateCheckbox.checked = true;
+            }
+        });
+        dateCheckbox.addEventListener('change', function() {
+            if (!dateCheckbox.checked) {
+                pwCheckbox.checked = true;
+                passwordField.style.display = 'block';
             }
         });
 
