@@ -15,8 +15,6 @@
     <p> Folgende Daten (und noch viele mehr) können von einer Website ohne deine Zustimmung erhoben werden. Damit kann dich eine Website identifizieren ohne Cookies zu setzen.
 
     <br><br><strong>User-Agent:</strong> <span id="userAgent"></span>
-    <br><strong>IP-Adresse:</strong> <span id="ip"></span>
-    <br><strong>Provider:</strong> <span id="provider"></span>
     <br><strong>Browser Sprache:</strong> <span id="language"></span>
     <br><strong>Referer:</strong> <span id="referer"></span>
     <br><strong>Bildschirmauflösung:</strong> <span id="screenResolution"></span>
@@ -68,6 +66,7 @@
             }
             return (hash >>> 0).toString(16);
         }
+      
         function getCanvasFingerprint() {
             var canvas = document.createElement('canvas');
             var ctx = canvas.getContext('2d');
@@ -84,20 +83,6 @@
             return hashString(dataURL);
         }
         document.getElementById("canvasFingerprint").textContent = getCanvasFingerprint();
-
-        function getIpInfo(){
-            fetch('https://ipinfo.io/json')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('ip').textContent = data.ip;
-                document.getElementById('provider').textContent = data.org;
-            })
-            .catch(error => {
-                document.getElementById('ip').textContent = 'nicht verfügbar';
-                document.getElementById('provider').textContent = 'nicht verfügbar';
-            });
-        }
-        getIpInfo();
 
     </script>
 
