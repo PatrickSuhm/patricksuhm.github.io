@@ -66,7 +66,7 @@
             const message = document.getElementById('message').value;
             const key = getKey();
             const encryptedMessage = xorEncryptDecrypt(message, key);
-            document.getElementById('result').textContent = `${btoa(unescape(encodeURIComponent(encryptedMessage)))}`;
+            document.getElementById('result').textContent = `${btoa(unescape(encodeURIComponent(encryptedMessage))).replace(/=/g, "")}`;
         }
 
         function decryptMessage() {
