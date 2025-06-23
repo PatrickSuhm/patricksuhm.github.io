@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../../favicon.png">
+    <link rel="stylesheet" type="text/css" href="../../style.css">
+    <title>Encrypt/Decrypt</title>
+    <style>#passwordField {display: none;}textarea {background-color: lightgray;}</style>
+</head>
+<body>
+    <br>
+    <textarea id="message" placeholder="Nachricht eingeben" rows="4" cols="50"></textarea>
+    <br>
+    <label>
+        <input type="checkbox" id="usePwCheckbox"> Passwort verwenden
+    </label>
+    <label>
+        <input type="checkbox" id="useDateCheckbox" checked> Datum verwenden
+    </label>
+    <br>
+    <span id="passwordField"><input type="password" id="key" placeholder="Passwort eingeben"></span>
+    <br>
+    <button onclick="encryptMessage()">Verschlüsseln</button>
+    <button onclick="decryptMessage()">Entschlüsseln</button>
+    <br><br>
+    <textarea readonly id="result" placeholder="Ausgabe" rows="4" cols="50"></textarea>
+
+
+    <script>
+        function xorEncryptDecrypt(message, key) {
+            let result = '';
+            for (let i = 0; i < message.length; i++) {
+                result += String.fromCharCode(message.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+            }
+            return result;
+        }
+
+        function hashString(str) {
+            let hash = 0x811c9dc5;
+            for (let i = 0; i < str.length; i++) {
+                hash ^= str.charCodeAt(i);
+                hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
+            }
+            return (hash >>> 0).toString(16);
+        }
+
+        function getKey()
+        {
+            key = "";
+            if(document.getElementById('usePwCheckbox').checked)
+            {
+                key += document.getElementById('key').value;
+            }
+            if(document.getElementById("useDateCheckbox").checked)
+            {
+                const currentDate = new Date();
+                key += currentDate.toISOString().split('T')[0];
+            }
+            key += "d3B98zhpZ";
+            key = hashString(key);
+            return key;
+        }
+
+        function encryptMessage() {
+            const message = document.getElementById('message').value;
+            const key = getKey();
+            const encryptedMessage = xorEncryptDecrypt(message, key);
+            document.getElementById('result').textContent = `${btoa(unescape(encodeURIComponent(encryptedMessage))).replace(/=/g, "")}`;
+        }
+
+        function decryptMessage() {
+            const message = decodeURIComponent(escape(atob(document.getElementById('message').value)));
+            const key = getKey();
+            const decryptedMessage = xorEncryptDecrypt(message, key);
+            document.getElementById('result').textContent = `${decryptedMessage}`;
+        }
+
+        const pwCheckbox = document.getElementById('usePwCheckbox');
+        const dateCheckbox = document.getElementById('useDateCheckbox');
+        const passwordField = document.getElementById('passwordField');
+        pwCheckbox.addEventListener('change', function() {
+            if (pwCheckbox.checked) {
+                passwordField.style.display = 'block';
+            } else {
+                passwordField.style.display = 'none';
+                dateCheckbox.checked = true;
+            }
+        });
+        dateCheckbox.addEventListener('change', function() {
+            if (!dateCheckbox.checked) {
+                pwCheckbox.checked = true;
+                passwordField.style.display = 'block';
+            }
+        });
+
+    </script>
+
+</body>
+</html>
