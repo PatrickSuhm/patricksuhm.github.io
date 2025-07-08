@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lösung</title>
+  <link rel="icon" type="image/x-icon" href="../../favicon.png">
+  <link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+  <div style="border: 1px solid;">
+    <pre>
+
+function controller( time, pos, vel, acc, 
+	angle, angleVel, angleAcc )
+{
+  var pi = Math.PI;
+  var ang = (angle + pi) % (2 * pi) - pi;
+  var force = 0;
+  if( ang > - pi / 4 && ang < pi / 4 )
+  {		
+    force = 10 * pos + 10 * vel - 
+	  100 * ang - 10 * angleVel;
+  }
+  else
+  { 
+    force = - 2.0 * angleVel * 
+	  Math.pow(Math.cos(ang), 2);
+  }
+  return force;
+}
+  </pre>
+  </div>
+</body>
+
+</html>
