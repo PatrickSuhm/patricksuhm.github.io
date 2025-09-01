@@ -24,7 +24,7 @@
 
   <p> Wenn ich einen Autopiloten für eine Flussfähre entwerfen würde, wie würde dieser die Fähre bewegen? Ich denke optimal wäre es, wenn die Fähre möglichst wenig Energie verbraucht, schnell ankommt und keine anderen Wasserfahrzeuge gefährdet. Den letzten Punkt würde ich ausklammern weil eine Fähre nach den Regeln der Binnenschifffahrtsstraßenordnung so gut wie immer Vorfahrt hat. Außerdem gehe ich davon aus, dass immer noch ein Kapitän an Bord ist, der im Notfall meinen Autopiloten deaktivieren und ein Ausweichmanöver starten könnte. Bleibt noch die Energieminimierung sowie eine geringe Fahrzeit. Wobei diese beiden Ziele gegensätzlich sind.
 
-  <p> Bei einem Fluss ohne Strömung ist die Sache recht einfach. Die Fähre würde auf gerader Strecke von Anlegestelle zu Anlegestelle fahren. Ohne Zeitlimit würde sie unendlich lange dafür brauchen und mit Zeitlimit genau so lange, wie das Zeitlimit eben vorgibt. Würde sie schneller fahren und das Zeitlimit unterbieten wäre es schließlich nicht mehr energie-optimal. Beliebig schnell kann sie natürlich auch nicht fahren, wodurch das Zeitlimit nicht beliebig klein sein kann.
+  <p> Bei einem Fluss ohne Strömung ist die Sache recht einfach. Die Fähre würde auf gerader Strecke von Anlegestelle zu Anlegestelle fahren. Ohne Zeitlimit würde sie unendlich lange dafür brauchen und mit Zeitlimit genau die Maximalzeit. Würde sie schneller fahren und die Maximalzeit unterbieten, wäre es schließlich nicht mehr energie-optimal. Beliebig schnell kann sie natürlich auch nicht fahren, wodurch die Maximalzeit nicht beliebig klein sein kann.
   
   <p> Interessant wird es erst wenn der Fluss eine Strömung aufweist. Nun braucht es kein Zeitlimit mehr um eine energie-optimale Lösung mit endlicher Fahrzeit berechnen zu können. Der Grund dafür ist, dass auf der Stelle stehen jetzt Energie kostet, da gegen die Strömung angehalten werden muss. Es ist also relativ intuitiv, dass wir einen energie-optimalen Pfad berechnen können ohne eine feste Fahrzeit vorgeben zu müssen.
  
@@ -91,7 +91,7 @@
   
   <p> Die zeitoptimale Flussüberquerung kann berechnet werden, wenn die Kostenfunktion \(\kappa\) = 1 gewählt wird. Dann muss jedoch auch die Antriebsgeschwindigkeit \(u_0\) auf einen festen Wert gesetzt werden. Andernfalls würde \(u_0\) unendlich groß werden.
 
-  <p> Eine konstante Strömungsfunktion \(d(x_0)\) hätte zur Folge, dass der Fluss in gerader Linie überquert würde. Ähnlich wie dies ohne Strömung der Fall wäre. Der Unterschied zum Fall ohne Strömung ist jedoch, dass es einen Vorhaltewinkel - und im Fall der energie-optimalen Überquerung - auch eine endliche Ankunftszeit gibt. 
+  <p> Eine konstante Strömungsfunktion \(d(x_0)\) hätte zur Folge, dass der Fluss in gerader Linie überquert würde. Ähnlich wie dies ohne Strömung der Fall wäre. Der Unterschied zum Fall ohne Strömung ist jedoch, dass es einen Vorhaltewinkel - und auch im Fall der energie-optimalen Überquerung - eine endliche Ankunftszeit gibt. 
   Die Menge der Energie, die mit diesem Verfahren eingespart werden kann, hängt also maßgeblich von der Strömungsfunktion ab. Bei konstanter Strömungsfunktion würde sich der Energiesparvorteil auf die Bestimmung der optimalen Überführungszeit bzw. des konstanten optimalen Vorhaltewinkels beschränken.
 </body>
 
