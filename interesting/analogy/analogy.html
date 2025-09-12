@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analogie</title>
+  <link rel="icon" type="image/x-icon" href="../../favicon.png">
+  <link rel="stylesheet" type="text/css" href="../../style.css">
+  <link rel="stylesheet" href="../../libs/katex/katex.css">
+  <script defer type="text/javascript" src="../../libs/katex/katex.js"></script>
+  <script defer src="../../libs/katex/katexAutoRender.js" onload="renderMathInElement(document.body);"></script>
+
+   <style>
+        table {
+            border-collapse: collapse;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        th, td {
+            border: 1px solid white;
+            padding: 12px;
+            text-align: center;
+        }
+        th {background-color: rgba(255, 255, 255, 0.3);}
+        td {background-color: rgba(255, 255, 255, 0.1);}
+   </style>
+
+</head>
+
+<body>
+  <a href="../../index.html"><ul> <li>home</li> </ul></a>
+  <h2> Physikalische Analogien </h2>
+  <p> Wenn man lernfaul ist und sich trotzdem in verschiedenen Disziplinen der Physik gut auskennen will, habe ich gute Nachrichten. Man muss nur eine
+    Disziplin meistern und kann die Zusammenhänge übertragen wenn man die Potential- und Flussgrößen kennt. Nachfolgend sind nur die Analogien zwischen Elektrotechnik, Hydraulik und Mechanik dargestellt aber natürlich sind die Analogien nicht auf diese drei Disziplinen beschränkt.
+
+    <table>
+        <thead>
+            <tr>
+                <th>Größe / Konzept</th>
+                <th>Elektrotechnik</th>
+                <th>Hydraulik</th>
+                <th>Mechanik</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Potential</td>
+                <td>\( U \,[\text{V}] \)</td>
+                <td>\( p \,[\text{Pa}] \)</td>
+                <td>\( F \,[\text{N}] \)</td>
+            </tr>
+            <tr>
+                <td>Fluss</td>
+                <td>\( I \,[\text{A}] \)</td>
+                <td>\( Q \,[\text{m}^3/\text{s}] \)</td>
+                <td>\( v \,[\text{m}/\text{s}] \)</td>
+            </tr>
+            <tr>
+                <td>Flussintegral</td>
+                <td>\( Q \,[\text{As}] \)</td>
+                <td>\( V \,[\text{m}^3] \)</td>
+                <td>\( x \,[\text{m}] \)</td>
+            </tr>
+            <tr>
+                <td>Widerstand</td>
+                <td>\( R \,[\text{V}/\text{A}] \)</td>
+                <td>\( R \,[\text{Pa}/(\text{m}^3/\text{s})] \)</td>
+                <td>\( b \,[\text{N}/(\text{m}/\text{s})] \)</td>
+            </tr>
+            <tr>
+                <td>Speicher</td>
+                <td>\( C \,[\text{As}/\text{V}] \)</td>
+                <td>\( C_h \,[\text{m}^3/\text{Pa}] \)</td>
+                <td>\( c \,[\text{m}/\text{N}] \)</td>
+            </tr>
+            <tr>
+                <td>Trägheit</td>
+                <td>\( L \,[\text{V}/(\text{A}/\text{s})] \)</td>
+                <td>\( L \,[\text{Pa}/(\text{m}^3/\text{s}^2)] \)</td>
+                <td>\( m \,[\text{N}/(\text{m}/\text{s}^2)] \)</td>
+            </tr>
+            <tr>
+                <td>Hookesches Gesetz</td>
+                <td>\( Q = C U \)</td>
+                <td>\( V = C_h p \)</td>
+                <td>\( x = c F \)</td>
+            </tr>
+            <tr>
+                <td>Newtonsches Gesetz</td>
+                <td>\( U = L \dot{I} \)</td>
+                <td>\( p = L \dot{Q} \)</td>
+                <td>\( F = m \dot{v} \)</td>
+            </tr>
+            <tr>
+                <td>Ohmsches Gesetz</td>
+                <td>\( U = R I \)</td>
+                <td>\( p = R Q \)</td>
+                <td>\( F = b v \)</td>
+            </tr>
+            <tr>
+                <td>Impuls</td>
+                <td>\( \Phi = L I \)</td>
+                <td>\( M = L Q \)</td>
+                <td>\( p = m v \)</td>
+            </tr>
+            <tr>
+                <td>Leistung</td>
+                <td>\( P = U I \)</td>
+                <td>\( P = p Q \)</td>
+                <td>\( P = F v \)</td>
+            </tr>
+            <tr>
+                <td>Kinetische Energie</td>
+                <td>\( E = \tfrac{1}{2} L I^2 \)</td>
+                <td>\( E = \tfrac{1}{2} L Q^2 \)</td>
+                <td>\( E = \tfrac{1}{2} m v^2 \)</td>
+            </tr>
+            <tr>
+                <td>Potentielle Energie</td>
+                <td>\( E = \tfrac{1}{2} C U^2 \)</td>
+                <td>\( E = \tfrac{1}{2} C_h p^2 \)</td>
+                <td>\( E = \tfrac{1}{2} c F^2 \)</td>
+            </tr>
+            <tr>
+                <td>Bewegungsgleichung</td>
+                <td>\( L \ddot{Q} + R \dot{Q} + \tfrac{1}{C}Q = 0 \)</td>
+                <td>\( L \ddot{V} + R \dot{V} + \tfrac{1}{C_h}V = 0 \)</td>
+                <td>\( m \ddot{x} + b \dot{x} + \tfrac{1}{c}x = 0 \)</td>
+            </tr>
+            <tr>
+                <td>Eigenfrequenz</td>
+                <td>\( \omega = \sqrt{\tfrac{1}{LC}} \)</td>
+                <td>\( \omega = \sqrt{\tfrac{1}{LC_h}} \)</td>
+                <td>\( \omega = \sqrt{\tfrac{1}{mc}} \)</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+
+
+</html>
