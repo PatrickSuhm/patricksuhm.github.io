@@ -26,111 +26,105 @@
 </head>
 
 <body>
-  <a href="../../index.html"><ul> <li>home</li> </ul></a>
-  <h2> Physikalische Analogien </h2>
-  <p> Wenn man lernfaul ist und sich trotzdem in verschiedenen Disziplinen der Physik gut auskennen will, habe ich gute Nachrichten. Man muss nur eine
-    Disziplin meistern und kann die Zusammenhänge übertragen wenn man die Potential- und Flussgrößen kennt. Nachfolgend sind nur die Analogien zwischen Elektrotechnik, Hydraulik und Mechanik dargestellt aber natürlich sind die Analogien nicht auf diese drei Disziplinen beschränkt.
+<a href="../../index.html"><ul> <li>home</li> </ul></a>
+<h2> Physikalische Analogien </h2>
+<p> Wenn man lernfaul ist und sich trotzdem in verschiedenen Disziplinen der Physik auskennen will, habe ich gute Nachrichten. Man muss nur eine Disziplin meistern und kann die Zusammenhänge übertragen wenn man die Potential- und Flussgrößen kennt. Nachfolgend sind nur die Analogien zwischen Elektrotechnik, Hydraulik und Mechanik dargestellt aber natürlich sind sie nicht auf diese drei Disziplinen beschränkt.
 
-    <table>
-        <thead>
-            <tr>
-                <th>Konzept</th>
-                <th>Elektrotechnik</th>
-                <th>Hydraulik</th>
-                <th>Mechanik 1</th>
-                <th>Mechanik 2</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Potential</td>
-                <td>\( U \,[\text{V}] \)</td>
-                <td>\( p \,[\text{N/m²}] \)</td>
-                <td>\( F \,[\text{N}] \)</td>
-                <td>\( v \,[\text{m/s}] \)</td>
-            </tr>
-            <tr>
-                <td>Fluss</td>
-                <td>\( I \,[\text{A}] \)</td>
-                <td>\( Q \,[\text{m³}/\text{s}] \)</td>
-                <td>\( v \,[\text{m}/\text{s}] \)</td>
-                <td>\( \dot{p} = F \,[\text{N}] \)</td>
-            </tr>
-            <tr>
-                <td>Flussintegral</td>
-                <td>\( Q \,[\text{As}] \)</td>
-                <td>\( V \,[\text{m³}] \)</td>
-                <td>\( x \,[\text{m}] \)</td>
-                <td>\( p \,[\text{Ns}] \)</td>
-            </tr>
-            <tr>
-                <td>Trägheit</td>
-                <td>\( L \,[\text{Vs}/\text{A}] \)</td>
-                <td>\( L_h \,[\text{Ns²}/\text{m⁵}] \)</td>
-                <td>\( m \,[\text{Ns²}/\text{m}] \)</td>
-                <td>\( m_2 \,[\text{m}/\text{N}] \)</td>
-            </tr>
-            <tr>
-                <td>Widerstand</td>
-                <td>\( R \,[\text{V}/\text{A}] \)</td>
-                <td>\( R \,[\text{Ns}/\text{m⁵}] \)</td>
-                <td>\( b \,[\text{Ns}/\text{m}] \)</td>
-                <td>\( b_2 \,[\text{m}/\text{Ns}] \)</td>
-            </tr>
-            <tr>
-                <td>Speicher</td>
-                <td>\( C \,[\text{As}/\text{V}] \)</td>
-                <td>\( C_h \,[\text{m⁵}/\text{N}] \)</td>
-                <td>\( c \,[\text{m}/\text{N}] \)</td>
-                <td>\( c_2 \,[\text{N}/\text{m}] \)</td>
-            </tr>
-            <tr>
-                <td>Trägheitsgesetz</td>
-                <td>\( U = L \dot{I} \)</td>
-                <td>\( p = L_h \dot{Q} \)</td>
-                <td>\( F = m \dot{v} \)</td>
-                <td>\( v = m_2 \dot{F} \)</td>
-            </tr>
-            <tr>
-                <td>Widerstandsgesetz</td>
-                <td>\( U = R I \)</td>
-                <td>\( p = R Q \)</td>
-                <td>\( F = b v \)</td>
-                <td>\( v = b_2 F \)</td>
-            </tr>
-            <tr>
-                <td>Speichergesetz</td>
-                <td>\( Q = C U \)</td>
-                <td>\( V = C_h p \)</td>
-                <td>\( x = c F \)</td>
-                <td>\( F = c_2 x \)</td>
-            </tr>
-            <tr>
-                <td>Impuls</td>
-                <td>\( \Phi = L I \)</td>
-                <td>\( M = L_h Q \)</td>
-                <td>\( p = m v \)</td>
-            </tr>
-            <tr>
-                <td>Leistung</td>
-                <td>\( P = U I \)</td>
-                <td>\( P = p Q \)</td>
-                <td>\( P = F v \)</td>
-            </tr>
-            <tr>
-                <td>Kinetische Energie</td>
-                <td>\( E = \tfrac{1}{2} L I^2 \)</td>
-                <td>\( E = \tfrac{1}{2} L_h Q^2 \)</td>
-                <td>\( E = \tfrac{1}{2} m v^2 \)</td>
-            </tr>
-            <tr>
-                <td>Potentielle Energie</td>
-                <td>\( E = \tfrac{1}{2} C U^2 \)</td>
-                <td>\( E = \tfrac{1}{2} C_h p^2 \)</td>
-                <td>\( E = \tfrac{1}{2} c F^2 \)</td>
-            </tr>
-        </tbody>
-    </table>
+<table>
+    <thead>
+        <tr>
+            <th>Konzept</th>
+            <th>Elektrotechnik</th>
+            <th>Hydraulik</th>
+            <th>Mechanik</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Potentialgröße</td>
+            <td>\( U \,[\text{V}] \)</td>
+            <td>\( p \,[\text{N/m²}] \)</td>
+            <td>\( F \,[\text{N}] \)</td>
+        </tr>
+        <tr>
+            <td>Flussgröße</td>
+            <td>\( I \,[\text{A}] \)</td>
+            <td>\( q \,[\text{m³/s}] \)</td>
+            <td>\( v \,[\text{m/s}] \)</td>
+        </tr>
+        <tr>
+            <td>Ladung</td>
+            <td>\( Q \,[\text{As}] \)</td>
+            <td>\( V \,[\text{m³}] \)</td>
+            <td>\( x \,[\text{m}] \)</td>
+        </tr>
+        <tr>
+            <td>Trägheit</td>
+            <td>\( L \,[\text{Vs/A}] \)</td>
+            <td>\( L_h \,[\text{Ns²/m⁵}] \)</td>
+            <td>\( m \,[\text{Ns²}/\text{m}] \)</td>
+        </tr>
+        <tr>
+            <td>Widerstand</td>
+            <td>\( R \,[\text{V}/\text{A}] \)</td>
+            <td>\( R_h \,[\text{Ns}/\text{m⁵}] \)</td>
+            <td>\( b \,[\text{Ns}/\text{m}] \)</td>
+        </tr>
+        <tr>
+            <td>Kapazität</td>
+            <td>\( C \,[\text{As}/\text{V}] \)</td>
+            <td>\( C_h \,[\text{m⁵}/\text{N}] \)</td>
+            <td>\( c \,[\text{m}/\text{N}] \)</td>
+        </tr>
+        <tr>
+            <td>Trägheitsgesetz</td>
+            <td>\( L = U/\dot{I} \)</td>
+            <td>\( L_h = p/\dot{q} \)</td>
+            <td>\( m = F/\dot{v} \)</td>
+        </tr>
+        <tr>
+            <td>Widerstandsgesetz</td>
+            <td>\( R = U/I \)</td>
+            <td>\( R_h = p/q \)</td>
+            <td>\( b = F/v \)</td>
+        </tr>
+        <tr>
+            <td>Kapazitätsgesetz</td>
+            <td>\( C = Q/U \)</td>
+            <td>\( C_h = V/p \)</td>
+            <td>\( c = x/F \)</td>
+        </tr>
+        <tr>
+            <td>Impuls</td>
+            <td>\( \Phi = L I \)</td>
+            <td>\( M = L_h q \)</td>
+            <td>\( p = m v \)</td>
+        </tr>
+        <tr>
+            <td>Leistung</td>
+            <td>\( P = U I \)</td>
+            <td>\( P = p q \)</td>
+            <td>\( P = F v \)</td>
+        </tr>
+        <tr>
+            <td>Trägheitsenergie</td>
+            <td>\( E = \tfrac{1}{2} L I^2 \)</td>
+            <td>\( E = \tfrac{1}{2} L_h q^2 \)</td>
+            <td>\( E = \tfrac{1}{2} m v^2 \)</td>
+        </tr>
+        <tr>
+            <td>Kapazitätsenergie</td>
+            <td>\( E = \tfrac{1}{2} C U^2 \)</td>
+            <td>\( E = \tfrac{1}{2} C_h p^2 \)</td>
+            <td>\( E = \tfrac{1}{2} c F^2 \)</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Die Trägheit (Induktivität) ist umso größer, je mehr Potential erforderlich ist, um eine bestimmte Flussänderung hervorzurufen. Der Widerstand ist umso größer, je mehr Potential notwendig ist, um einen bestimmten Fluss aufrechtzuerhalten. Die Kapazität ist umso größer, je mehr Ladung (Volumen, Auslenkung) bei einem gegebenen Potential aufrechterhalten wird. 
+
+Die Kapazität ist der Kehrwert der Steifigkeit. Die Steifigkeit ist also umso größer, je mehr Potential für eine gewisse Ladung (Volumen, Auslenkung) benötigt wird.
+
 
 </body>
 
