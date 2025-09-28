@@ -20,6 +20,13 @@
             padding: 5px;
             text-align: center;
         }
+        q.highlight {
+            display: inline-block; 
+            font-style: italic;
+            font-weight: bold;
+            padding: 0.2em 0.4em;
+            border-radius: 10px;
+        }
 
    </style>
 
@@ -121,10 +128,27 @@
     </tbody>
 </table>
 
-<p>Die Trägheit (Induktivität) ist umso größer, je mehr Potential erforderlich ist, um eine bestimmte Flussänderung hervorzurufen. Der Widerstand ist umso größer, je mehr Potential notwendig ist, um einen bestimmten Fluss aufrechtzuerhalten. Die Kapazität ist umso größer, je mehr Ladung (Volumen, Auslenkung) bei einem gegebenen Potential aufrechterhalten wird. 
+<p>Die Trägheit (Induktivität) ist umso größer, je mehr Potential erforderlich ist, um eine bestimmte Flussänderung hervorzurufen. Der Widerstand ist umso größer, je mehr Potential notwendig ist, um einen bestimmten Fluss aufrechtzuerhalten. Die Kapazität (Kehrwert der Steifigkeit) ist umso größer, je mehr Ladung (Volumen, Auslenkung) bei einem gegebenen Potential aufrechterhalten wird. 
 
-Die Kapazität ist der Kehrwert der Steifigkeit. Die Steifigkeit ist also umso größer, je mehr Potential für eine gewisse Ladung (Volumen, Auslenkung) benötigt wird.
+<p>Folgendes Beispiel zeigt wie man die Analogien nutzen kann. Angenommen man hat keine Ahnung von Elektrotechnik, muss aber folgende Aufgabe lösen:
 
+<p><q class="highlight">Was ist die größtmögliche Spannung die man mit 2 gleichen Kondensatoren und einer Spannungsquelle (1V) erreichen kann?</q>
+
+<p>Wenn man sich in der Mechanik auskennt und die Analogien kennt, kann man die Frage lösen, ohne Ahnung von Elektrotechnik zu haben. Eine Spannungsquelle wird dann zur Kraftquelle und ein Kondensator wird zur Feder. Die Ladung des Kondensators entspricht der Auslenkung der Feder. Die Kraftquelle (1N) kann in der Mechanik mit einer Masse von etwa 0.1kg im Schwerefeld der Erde realisiert werden. Beim Trennen des Kondensators von der Spannungsquelle bleibt dessen Ladung und Spannung erhalten. Äquivalent dazu können die Federn in ihrer aktuellen Auslenkung arretiert werden.
+
+<p>Ohne Verlust der Allgemeinheit können wir für die beiden Federn eine Kapazität von 1m/N annehmen. Die maximale Kraft erhalten wir folgendermaßen:
+
+<ol>
+  <li>Beide Federn mithilfe der Masse nacheinander auf 1N (bzw. 1m Auslenkung) aufladen und arretieren.</li>
+  <li>Eine der Federn (Feder a) parallel zur Masse schalten und damit die andere Feder (Feder b) beaufschlagen. Nachdem die Arretierungen der Federn gelöst wurden und sich das System eingeschwungen hat, stellt sich an der Feder a eine Auslenkung (Kraft) von 0.5m (0.5N) ein. Feder b dehnt sich auf 1.5m (1.5N), da ja zusätzlich die Masse auf sie wirkt.</li>
+  <li>Feder a kann nun mithilfe der Masse wieder auf 1N aufgeladen werden und anschließend wird Punkt 2 wiederholt. (Nach dem zweiten Durchlauf hat Feder b bereits 1.75N und Feder a ist nur noch auf 0.75N abgefallen. Nach dem dritten Durchlauf liegt Feder b bei 1.875N ...)</li>
+</ol>
+
+<p> Über Feder a und die Masse wird Feder b also so lange weiter gedehnt, bis diese bei 2N angekommen ist. Danach kann Feder b nicht weiter gedehnt werden und es gibt keine Möglichkeit noch höhere Kräfte zu erreichen.
+    
+<p> Die Maximalkraft erhält man, indem man beide Federn und die Kraftquelle zum Schluss parallel anordnet. Folglich ist die Antwort auf die initiale Frage 4N bzw. 4V.
+
+<p> Wenn man zwei beliebige Kondensatoren zulässt, ist die Lösung übrigens 6V weil man dann eine sehr große und eine sehr kleine Kapazität wählen kann um im letzten Schritt den Kondensator mit der kleinen Kapazität auf nahezu 3V zu laden, ohne den Kondensator mit der großen Kapazität (zu diesem Zeitpunkt 2V) nennenswert zu entladen. 
 
 </body>
 
