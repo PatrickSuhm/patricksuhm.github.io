@@ -3,31 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="../../favicon.png">
-    <link rel="stylesheet" type="text/css" href="../../style.css">
     <title>Encrypt/Decrypt</title>
-    <style>#passwordField {display: none;}textarea {background-color: lightgray;}</style>
+    <style>
+        textarea {background-color: rgb(230, 230, 230);}
+        #result { background-color: rgb(230, 230, 230);}
+    </style>
 </head>
 <body>
-    <br>
-    <textarea id="message" placeholder="Nachricht eingeben" rows="4" cols="50"></textarea>
-    <br>
-    <label>
-        <input type="checkbox" id="usePwCheckbox"> Passwort verwenden
-    </label>
-    <label>
-        <input type="checkbox" id="useDateCheckbox" checked> Datum verwenden
-    </label>
-    <br>
-    <span id="passwordField"><input type="password" id="key" placeholder="Passwort eingeben"></span>
-    <br>
-    <button onclick="encryptMessage()">Verschlüsseln</button>
-    <button onclick="decryptMessage()">Entschlüsseln</button>
-    <br><br>
-    <textarea readonly id="result" placeholder="Ausgabe" rows="4" cols="50"></textarea>
 
+    <div id="container" style="display: flex; flex-direction: column; align-items: center;">
+
+        <div id="keyboard" style="margin-bottom: 5px;"></div>
+
+        <textarea id="message" placeholder="Nachricht eingeben" rows="4" cols="50"></textarea>
+
+        <div id="checkis" style="display: flex; gap: 5px; justify-content: center; margin-top: 2px; margin-bottom: 2px;">
+            <label> <input type="checkbox" id="usePwCheckbox" checked> Passwort verwenden </label>
+            <label> <input type="checkbox" id="useDateCheckbox" checked> Datum verwenden </label>
+        </div>
+
+        <div id="passwordField" style="margin-bottom: 5px;"><input type="password" id="key" placeholder="Passwort eingeben"></div>
+        
+        <div id="buttons" style="display: flex; gap: 5px; justify-content: flex-start; margin-bottom: 5px;">
+            <button onclick="encryptMessage()">Verschlüsseln</button>
+            <button onclick="decryptMessage()">Entschlüsseln</button>
+        </div>
+
+        <textarea readonly id="result" placeholder="Ausgabe" rows="4" cols="50"></textarea>
+    </div>
 
     <script>
+        const keyboardContainer = document.getElementById('keyboard');
+        let isShift = false;
+
+        const rows = [
+            ["1","2","3","4","5","6","7","8","9","0","ß","Back"],
+            ["q","w","e","r","t","z","u","i","o","p","ü","+","-"],
+            ["Shift","a","s","d","f","g","h","j","k","l","ö","ä"],
+            ["y","x","c","v","b","n","m","Space",",","."]
+        ];
+
+        const keySizes = {
+            "Back": 50,
+            "Space": 100,
+            "Shift": 50
+        };
+
+        function renderKeyboard() {
+            keyboardContainer.innerHTML = '';
+            
+            rows.forEach((row, rowIndex) => {
+                const rowDiv = document.createElement('div');
+                rowDiv.style.display = "flex";
+                rowDiv.style.justifyContent = "center";
+                rowDiv.style.marginBottom = "2px";
+                
+                if (rowIndex === 1) rowDiv.style.paddingLeft = "0px";
+                if (rowIndex === 2) rowDiv.style.paddingLeft = "0px";
+
+                row.forEach(key => {
+                    const button = document.createElement('button');
+                    
+                    let label = key;
+                    if (isShift && key.length === 1 && key.match(/[a-zäöü]/i)) {
+                        label = key.toUpperCase();
+                    }
+                    
+                    button.textContent = label;
+                    button.style.margin = "2px";
+                    button.style.height = "25px";
+                    button.style.minWidth = keySizes[key] ? keySizes[key] + "px" : "25px";
+                    button.style.fontSize = "14px";
+                    button.style.backgroundColor = (key === "Shift" && isShift) ? "#bbb" : "";
+
+                    button.addEventListener('mousedown', (e) => {
+                        e.preventDefault(); 
+                        
+                        const active = document.activeElement;
+
+                        if (!active || 
+                            !(active.tagName === "INPUT" || active.tagName === "TEXTAREA") || 
+                            active.readOnly) {
+                            return;
+                        }
+
+                        const start = active.selectionStart;
+                        const end = active.selectionEnd;
+                        let charToInsert = "";
+
+                        if (key === "Back") {
+                            if (start === end && start > 0) {
+                                active.value = active.value.slice(0, start - 1) + active.value.slice(end);
+                                active.selectionStart = active.selectionEnd = start - 1;
+                            } else if (start !== end) {
+                                active.value = active.value.slice(0, start) + active.value.slice(end);
+                                active.selectionStart = active.selectionEnd = start;
+                            }
+                        } else if (key === "Space") {
+                            charToInsert = " ";
+                        } else if (key === "Shift") {
+                            isShift = !isShift;
+                            renderKeyboard(); 
+                            return; 
+                        } else {
+                            charToInsert = label; 
+                        }
+
+                        if (charToInsert) {
+                            active.value = active.value.slice(0, start) + charToInsert + active.value.slice(end);
+                            active.selectionStart = active.selectionEnd = start + charToInsert.length;
+                        }
+                        
+                        if (isShift && key !== "Shift" && key !== "Back") {
+                            isShift = false;
+                            renderKeyboard();
+                        }
+
+                        active.focus();
+                    });
+                    rowDiv.appendChild(button);
+                });
+                keyboardContainer.appendChild(rowDiv);
+            });
+        }
+
+        renderKeyboard();
+
         function xorEncryptDecrypt(message, key) {
             let result = '';
             for (let i = 0; i < message.length; i++) {
@@ -47,7 +148,7 @@
 
         function getKey()
         {
-            key = "";
+            let key = "";
             if(document.getElementById('usePwCheckbox').checked)
             {
                 key += document.getElementById('key').value;
@@ -66,19 +167,24 @@
             const message = document.getElementById('message').value;
             const key = getKey();
             const encryptedMessage = xorEncryptDecrypt(message, key);
-            document.getElementById('result').textContent = `${btoa(unescape(encodeURIComponent(encryptedMessage))).replace(/=/g, "")}`;
+            document.getElementById('result').value = `${btoa(unescape(encodeURIComponent(encryptedMessage))).replace(/=/g, "")}`;
         }
 
         function decryptMessage() {
-            const message = decodeURIComponent(escape(atob(document.getElementById('message').value)));
-            const key = getKey();
-            const decryptedMessage = xorEncryptDecrypt(message, key);
-            document.getElementById('result').textContent = `${decryptedMessage}`;
+            try {
+                const message = decodeURIComponent(escape(atob(document.getElementById('message').value)));
+                const key = getKey();
+                const decryptedMessage = xorEncryptDecrypt(message, key);
+                document.getElementById('result').value = `${decryptedMessage}`;
+            } catch(e) {
+                document.getElementById('result').value = "Fehler beim Entschlüsseln";
+            }
         }
 
         const pwCheckbox = document.getElementById('usePwCheckbox');
         const dateCheckbox = document.getElementById('useDateCheckbox');
         const passwordField = document.getElementById('passwordField');
+
         pwCheckbox.addEventListener('change', function() {
             if (pwCheckbox.checked) {
                 passwordField.style.display = 'block';
@@ -87,10 +193,19 @@
                 dateCheckbox.checked = true;
             }
         });
+
         dateCheckbox.addEventListener('change', function() {
             if (!dateCheckbox.checked) {
                 pwCheckbox.checked = true;
                 passwordField.style.display = 'block';
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (pwCheckbox.checked) {
+                passwordField.style.display = 'block';
+            } else {
+                passwordField.style.display = 'none';
             }
         });
 
