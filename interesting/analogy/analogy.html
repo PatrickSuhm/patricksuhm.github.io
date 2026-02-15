@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analogie</title>
+  <link rel="icon" type="image/x-icon" href="../../favicon.png">
+  <link rel="stylesheet" type="text/css" href="../../style.css">
+  <link rel="stylesheet" href="../../libs/katex/katex.css">
+  <script defer type="text/javascript" src="../../libs/katex/katex.js"></script>
+  <script defer src="../../libs/katex/katexAutoRender.js" onload="renderMathInElement(document.body);"></script>
+
+   <style>
+        table {
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+        th, td {
+            border: 1px solid rgb(100, 100, 100);
+            padding: 5px;
+            text-align: center;
+        }
+        q.highlight {
+            display: inline-block; 
+            font-style: italic;
+            font-weight: bold;
+            padding: 0.2em 0.4em;
+            border-radius: 10px;
+        }
+
+   </style>
+
+</head>
+
+<body>
+<a href="../../index.html"><ul> <li>home</li> </ul></a>
+<h2> Physikalische Analogien </h2>
+<p> Wenn man lernfaul ist und sich trotzdem in verschiedenen Disziplinen der Physik auskennen will, habe ich gute Nachrichten. Man muss nur eine Disziplin meistern und kann die Zusammenhänge übertragen, wenn man die Potential- und Flussgrößen kennt. Nachfolgend sind nur die Analogien zwischen Elektrotechnik, Hydraulik und Mechanik dargestellt, aber natürlich sind die Analogien nicht auf diese drei Disziplinen beschränkt.
+
+<table>
+    <thead>
+        <tr>
+            <th>Konzept</th>
+            <th>Elektrotechnik</th>
+            <th>Hydraulik</th>
+            <th>Mechanik</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Potentialgröße</td>
+            <td>\( U \,[\text{V}] \)</td>
+            <td>\( p \,[\text{N/m²}] \)</td>
+            <td>\( F \,[\text{N}] \)</td>
+        </tr>
+        <tr>
+            <td>Flussgröße</td>
+            <td>\( I \,[\text{A}] \)</td>
+            <td>\( q \,[\text{m³/s}] \)</td>
+            <td>\( v \,[\text{m/s}] \)</td>
+        </tr>
+        <tr>
+            <td>Ladung</td>
+            <td>\( Q \,[\text{As}] \)</td>
+            <td>\( V \,[\text{m³}] \)</td>
+            <td>\( x \,[\text{m}] \)</td>
+        </tr>
+        <tr>
+            <td>Trägheit</td>
+            <td>\( L \,[\text{Vs/A}] \)</td>
+            <td>\( L_h \,[\text{Ns²/m⁵}] \)</td>
+            <td>\( m \,[\text{Ns²}/\text{m}] \)</td>
+        </tr>
+        <tr>
+            <td>Widerstand</td>
+            <td>\( R \,[\text{V}/\text{A}] \)</td>
+            <td>\( R_h \,[\text{Ns}/\text{m⁵}] \)</td>
+            <td>\( b \,[\text{Ns}/\text{m}] \)</td>
+        </tr>
+        <tr>
+            <td>Kapazität</td>
+            <td>\( C \,[\text{As}/\text{V}] \)</td>
+            <td>\( C_h \,[\text{m⁵}/\text{N}] \)</td>
+            <td>\( c \,[\text{m}/\text{N}] \)</td>
+        </tr>
+        <tr>
+            <td>Trägheitsgesetz</td>
+            <td>\( L = U/\dot{I} \)</td>
+            <td>\( L_h = p/\dot{q} \)</td>
+            <td>\( m = F/\dot{v} \)</td>
+        </tr>
+        <tr>
+            <td>Widerstandsgesetz</td>
+            <td>\( R = U/I \)</td>
+            <td>\( R_h = p/q \)</td>
+            <td>\( b = F/v \)</td>
+        </tr>
+        <tr>
+            <td>Kapazitätsgesetz</td>
+            <td>\( C = Q/U \)</td>
+            <td>\( C_h = V/p \)</td>
+            <td>\( c = x/F \)</td>
+        </tr>
+        <tr>
+            <td>Impuls</td>
+            <td>\( \Phi = L I \)</td>
+            <td>\( M = L_h q \)</td>
+            <td>\( p = m v \)</td>
+        </tr>
+        <tr>
+            <td>Leistung</td>
+            <td>\( P = U I \)</td>
+            <td>\( P = p q \)</td>
+            <td>\( P = F v \)</td>
+        </tr>
+        <tr>
+            <td>Trägheitsenergie</td>
+            <td>\( E = \tfrac{1}{2} L I^2 \)</td>
+            <td>\( E = \tfrac{1}{2} L_h q^2 \)</td>
+            <td>\( E = \tfrac{1}{2} m v^2 \)</td>
+        </tr>
+        <tr>
+            <td>Kapazitätsenergie</td>
+            <td>\( E = \tfrac{1}{2} C U^2 \)</td>
+            <td>\( E = \tfrac{1}{2} C_h p^2 \)</td>
+            <td>\( E = \tfrac{1}{2} c F^2 \)</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Die Trägheit (Induktivität) ist umso größer, je mehr Potential erforderlich ist, um eine bestimmte Flussänderung hervorzurufen. Der Widerstand ist umso größer, je mehr Potential notwendig ist, um einen bestimmten Fluss aufrechtzuerhalten. Die Kapazität (Kehrwert der Steifigkeit) ist umso größer, je mehr Ladung (Volumen, Auslenkung) bei einem gegebenen Potential aufrechterhalten wird. 
+
+<p>Folgendes Beispiel zeigt, wie man die Analogien nutzen kann. Angenommen man hat keine Ahnung von Elektrotechnik, muss aber folgende Aufgabe lösen:
+
+<p><q class="highlight">Was ist die größtmögliche Spannung, die man mit 2 gleichen Kondensatoren und einer Spannungsquelle (1V) erreichen kann?</q>
+
+<p>Wenn man sich in der Mechanik auskennt und die Analogien kennt, kann man die Frage lösen, ohne Ahnung von Elektrotechnik zu haben. Eine Spannungsquelle wird dann zur Kraftquelle und ein Kondensator wird zur Feder. Die Ladung des Kondensators entspricht der Auslenkung der Feder. Die Kraftquelle (1N) kann in der Mechanik mit einer Masse von etwa 0.1kg im Schwerefeld der Erde realisiert werden. Beim Trennen des Kondensators von der Spannungsquelle bleibt dessen Ladung und Spannung erhalten. Äquivalent dazu können die Federn in ihrer aktuellen Auslenkung arretiert werden.
+
+<p>Ohne Verlust der Allgemeinheit können wir für die beiden Federn eine Kapazität von 1m/N annehmen. Die maximale Kraft erhalten wir folgendermaßen:
+
+<ol>
+  <li>Beide Federn mithilfe der Masse nacheinander auf 1N (bzw. 1m Auslenkung) aufladen.</li>
+  <li>Eine der Federn (Feder a) parallel zur Masse schalten und damit die andere Feder (Feder b) beaufschlagen. (Nachdem sich das System eingeschwungen hat, stellt sich beim ersten Durchlauf an der Feder a eine Auslenkung (Kraft) von 0.5m (0.5N) ein. Feder b dehnt sich auf 1.5m (1.5N).)</li>
+  <li>Feder a kann nun mithilfe der Masse wieder auf 1N aufgeladen werden und anschließend wird Punkt 2 wiederholt. (Nach dem zweiten Durchlauf hat Feder b bereits 1.75N und Feder a ist nur noch auf 0.75N abgefallen. Nach dem dritten Durchlauf liegt Feder b bei 1.875N ...)</li>
+</ol>
+
+<p> Über Feder a und die Masse wird Feder b also so lange weiter gedehnt, bis diese bei 2N angekommen ist. Danach kann Feder b nicht weiter gedehnt werden und es gibt keine Möglichkeit noch höhere Kräfte zu erreichen.
+    
+<p> Die Maximalkraft erhält man, indem man beide Federn und die Kraftquelle zum Schluss parallel anordnet. Folglich ist die Antwort auf die initiale Frage 4N bzw. 4V.
+
+<p> Wenn man zwei beliebige Kondensatoren zulässt, ist die Lösung übrigens 6V weil man dann eine sehr große und eine sehr kleine Kapazität wählen kann, um im letzten Schritt den Kondensator mit der kleinen Kapazität auf nahezu 3V zu laden, ohne den Kondensator mit der großen Kapazität (zu diesem Zeitpunkt 2V) nennenswert zu entladen. 
+
+</body>
+
+
+
+</html>

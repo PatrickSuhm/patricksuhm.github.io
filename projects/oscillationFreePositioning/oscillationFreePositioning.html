@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Schwingungsarmes Positionieren</title>
+	<link rel="icon" type="image/x-icon" href="../../favicon.png">
+	<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+	<a href="../../index.html"><ul> <li>home</li> </ul></a>
+
+	<h2> Schwingungsarmes Positionieren </h2>
+
+	<p> Bei diesem Projekt wollte ich testen, wie schwierig es ist, eine an einem Faden aufgehängte Last schwingungsarm zu positionieren. So etwas können Kräne und elastische Roboter gebrauchen, damit die Last schneller im Zielpunkt abgelegt werden kann. Als Testplattform habe ich meinen 3D-Drucker zerlegt, um die Achsen über einen Arduino direkt ansteuern zu können. 
+
+	<p> Auf der linken Seite des Videos wird eine polynomiale Trajektorie als Sollwert für den Schlitten vorgegeben. Auf der rechten Seite wird die gleiche Trajektorie als Sollwert für die Last verwendet und die benötigte Schlittentrajektorie dann unter Berücksichtigung der Systemdynamik aus der Lasttrajektorie berechnet:
+	<div style="max-width:600px; margin: auto;"><video src="stri.mp4" controls playsinline preload="metadata"> </video>	</div>
+
+	<p> Es können auch mehrere Lasten gleichzeitig positioniert werden. Theoretisch gibt es kein Limit für die Anzahl parallel positionierter Lasten. Praktisch ergeben sich jedoch einige Schwierigkeiten, weil bei 2 Lasten die 4. Ableitung und bei 3 Lasten bereits die 8. Ableitung der Lasttrajektorie benötigt wird (und diese stetig sein sollte). Die Pendellängen und damit Eigenfrequenzen können beliebig gewählt werden:
+	<div style="max-width:600px; margin: auto;"><video src="pm.mp4" controls playsinline preload="metadata"> </video> </div>
+
+	<p> Und hier noch der Fall mit seriellen Massen. Auch hier kommt das Verfahren mit beliebigen Eigenfrequenzen und Anordnungen klar:
+	<div style="max-width:600px; margin: auto;"><video src="sm.mp4" controls playsinline preload="metadata"> </video> </div>
+	
+	<p> Die Trajektorienzeit ist für beide Bewegungen gleich. Das ist der große Vorteil der verwendeten Methode im Vergleich zum sogenannten "Input-Shaping" oder anderen Filtermethoden. Das verwendete Verfahren resultiert direkt aus der Transformation auf Regelungsnormalform. Es funktioniert also für alle Systeme, die durch ein lineares zustandssteuerbares System angenähert werden können. Das System wird dabei in eine Integratorkette transformiert. Über die Zustandsgröße am Ende der Integratorkette lassen sich dann alle Zustandsgrößen des nicht transformierten Systems differentiell parametrieren.
+
+	
+
+
+</body>
+
+</html>

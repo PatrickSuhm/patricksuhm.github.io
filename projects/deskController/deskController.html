@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steuerung für Stehschreibtische</title>
+  <link rel="icon" type="image/x-icon" href="../../favicon.png">
+  <link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+  <a href="../../index.html"><ul> <li>home</li> </ul></a>
+  <h2> Steuerung für Stehschreibtische </h2>
+  <p>Über längere Zeit am Schreibtisch zu sitzen ist schädlich für Rücken und Haltung. Deshalb habe ich mich entschieden, einen Stehschreibtisch zu kaufen. Doch trotz Stehschreibtisch passiert es häufig, dass man so vertieft in die Arbeit ist, dass man vergisst, in die stehende Position zu wechseln. Wäre es nicht schön, wenn der Schreibtisch nach einer bestimmten Zeit automatisch zwischen stehender und sitzender Position wechseln würde? Aus diesem Grund habe ich folgendes Gerät entwickelt:
+
+  <p>
+  <div style="margin:auto; max-width:600px;"><img src="connected.jpg"></div>
+
+  <p>
+    Es kann zwischen Schreibtisch und Handbedienteil montiert werden. Praktischerweise verwenden die meisten Schreibtischmodelle einen Ethernet-Stecker zwischen Bedienfeld und Schreibtisch. So kann mein Gerät einfach zwischengesteckt werden. Es erkennt die Pinbelegung über eine Kalibrierungsroutine automatisch. Alle Schreibtische mit einfacher Auf-Ab-Steuerung werden unterstützt. Alle Daten werden auf dem Gerät gespeichert, sodass die Pinbelegung nach einem Stromausfall nicht erneut angelernt werden muss.
+
+  <p> Zusätzlich gibt es einen Ultraschallsensor, der den Abstand zum Boden oder zur Decke misst (je nachdem, wo die Steuerung montiert wird). Dadurch kennt der Tisch seine aktuelle Höhe und kann jedes Mal exakt die gewünschte Höhe anfahren. Es muss nicht wie zuvor der Auf/Ab-Taster dauerhaft gedrückt werden; ein einzelner Tastendruck reicht aus, um zur gespeicherten Sollposition zu gelangen. Ein neuer Sollwert kann durch einen Doppeldruck auf einen der Taster gesetzt werden. Jede
+    Tasteneingabe während der Bewegung stoppt den Tisch sofort.
+
+  <p>
+    Um mit dem Gerät zu kommunizieren und die Dauer- sowie Positionsdaten festzulegen, kann die <a target="_blank" href="deskControllerWebGui.html">Web GUI</a> verwendet werden. Das Gerät lässt sich über USB-C mit einem PC verbinden, und die Daten werden über die Web-Serial-API übertragen. Um sich nicht in die Web-GUI einloggen zu müssen, kann eine zeitgesteuerte Fahrt initiiert werden, indem beide Tasten schnell hintereinander gedrückt werden.
+
+  <p>
+  <div style="margin:auto; max-width:600px;"><img src="inside.jpg"></div>
+
+  <p>
+    Hier ist die selbst entwickelte Leiterplatte zu sehen. Sie verwendet vier Acht-Kanal-Multiplexer, einen Optokoppler und einen Mikrocontroller. Um einen Multiplexer am Eingang zu sparen, wird permanent zwischen der Auf- und Ab-Pinkonfiguration gewechselt, um die Tastendrücke zu erkennen. Ein Ultraschall-Abstandssensor und ein USB-zu-Seriell-Modul sind im Deckel verbaut.
+</body>
+
+</html>

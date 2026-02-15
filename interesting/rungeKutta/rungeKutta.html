@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RungeKutta</title>
+  <link rel="icon" type="image/x-icon" href="../../favicon.png">
+  <link rel="stylesheet" type="text/css" href="../../style.css">
+  <link rel="stylesheet" href="../../libs/codemirror/codemirror.css" />
+  <link rel="stylesheet" href="../../libs/codemirror/monokai.css" />
+  <script src="../../libs/codemirror/codemirror.js"></script>
+  <script src="../../libs/codemirror/python.js"></script>
+  <link rel="stylesheet" href="../../libs/katex/katex.css">
+  <script defer type="text/javascript" src="../../libs/katex/katex.js"></script>
+  <script defer src="../../libs/katex/katexAutoRender.js" onload="renderMathInElement(document.body);"></script>
+  <script>
+    window.onload = function () {
+      for (var i = 0; i < 1; i++) {
+        CodeMirror.fromTextArea(document.getElementById("code" + i.toString()), {
+          lineNumbers: true, mode: 'python', theme: 'monokai', readOnly: 'true',
+          viewportMargin: "10"
+        });
+      }
+    }
+  </script>
+  <style>
+    .CodeMirror {
+      height: auto;
+    }
+  </style>
+
+</head>
+
+<body>
+  <a href="../../index.html"><ul> <li>home</li> </ul></a>
+  <h2> Numerische Lösung von ODEs </h2>
+  <p>Hier möchte ich anhand eines einfachen Beispiels zeigen, wie gewöhnliche Differentialgleichungen (ODEs) numerisch gelöst werden können. Angenommen, wir haben ein Federpendel und möchten wissen, an welcher Position \(s\) sich die Masse \(m\) nach einer Sekunde befindet, wenn wir sie zum Zeitpunkt \(t=0\) bei der Anfangsauslenkung \(s_0\) losgelassen haben.
+
+  <p>
+  <div style="margin:auto; max-width:100px;"><img src="pendulum.png"></div>
+
+  <p> Es gibt drei Möglichkeiten, wie wir das herausfinden können. Wir könnten ein Experiment machen oder uns die analytische Lösung der Bewegungsgleichung überlegen. Die dritte Möglichkeit wäre, die Bewegungsgleichung numerisch zu lösen. Das ist oft der einzig mögliche Weg, wenn ein
+    Experiment zu aufwändig und die analytische Lösung unmöglich zu finden ist.
+
+  <p> Für den Fall des Federpendels ist die Differentialgleichung, welche die Bewegung beschreibt, denkbar einfach:
+
+  <p> <div>\[ \begin{equation} m \ddot{s}(t) + cs(t) = 0 \end{equation} \]</div>
+
+  <p> Die analytische Lösung dieser ODE zweiten Grades lautet:
+  <p> <div>\[ \begin{equation}s(t) = s_0 \cos(\sqrt\frac{c}{m} ~t) \end{equation} \]</div>
+
+  <p> Unsere initiale Frage können wir damit also beantworten. 
+    
+  Um die Bewegungsgleichung (1) nun numerisch zu lösen, kann man zunächst aus der ODE zweiten Grades zwei ODEs ersten Grades machen. Dies macht es einfacher, die Standardverfahren anzuwenden. Dazu substituiert man für \(s = x_0\) und für \(\dot{s} = x_1\).
+  Mit dem Zustandsvektor \(x = [s,~\dot{s}]^T\) ergibt sich dann:
+
+  <p>  <div>\[ \begin{equation} \dot{x}(t) = f(x(t)) = 
+    \begin{pmatrix} 0 & 1 \\ 
+    -\frac{c}{m} & 0 \end{pmatrix} 
+    x(t)\end{equation} \]</div>
+
+    <p>Das <strong>Euler-Verfahren</strong> ist eines der einfachsten und ältesten Verfahren zur Lösung von ODEs ersten Grades. Es basiert auf der Idee, den Funktionswert bei einem neuen Punkt durch die lineare Fortsetzung des Funktionswertes vom vorherigen Punkt zu approximieren.
+
+    <p>Für eine ODE der Form \( y'(t) = f(y(t)) \) mit Anfangswert \( y(t_0) = y_0 \) wird der neue Wert \( y_{n+1} \) durch:
+
+    <p>\[
+    y_{n+1} = y_n + h f(y_n)
+    \]
+
+    <p>berechnet, wobei \( h \) die Schrittweite darstellt.
+
+    <p>Die <strong>Runge-Kutta-Verfahren</strong> stellen eine Familie von Verfahren dar, die eine höhere Genauigkeit und Stabilität im Vergleich zum Euler-Verfahren bieten. Die bekannteste Variante ist das klassische Runge-Kutta-Verfahren vierter Ordnung (oft einfach als RK4 bezeichnet).
+
+    <p>Der neue Wert für \( y_{n+1} \) wird durch:
+
+    <p>\[
+    y_{n+1} = y_n + \frac{h}{6} (k_1 + 2k_2 + 2k_3 + k_4)
+    \]
+
+    <p>berechnet, wobei die Koeffizienten \( k_1 \), \( k_2 \), \( k_3 \) und \( k_4 \) wie folgt definiert sind:
+
+    <p>\[
+    k_1 = f(y_n)
+    \]
+    <p>\[
+    k_2 = f\left(y_n + \frac{h}{2} k_1\right)
+    \]
+    <p>\[
+    k_3 = f\left(y_n + \frac{h}{2} k_2\right)
+    \]
+    <p>\[
+    k_4 = f(y_n + h k_3)
+    \]
+    <p>Das Runge-Kutta-Verfahren vierter Ordnung (RK4) benötigt vier Funktionsauswertungen wogegen das Euler-Verfahren mit nur einer Funktionsauswertung auskommt. 
+      
+    <p>Das Ergebnis der Integration für das Federpendel ist für beide Verfahren zusammen mit der exakten/analytischen Lösung nachfolgend dargestellt \((c = 10^3\frac{\text{N}}{\text{m}},~ m = 1\text{kg},~ h = 10^{-3}\text{s},~ s_0 = 1\text{m})\):
+    
+    <p> <div style="margin:auto; max-width:500px;"><img src="fixedStep.png"></div>
+
+    Während bei dieser Schrittweite das Runge-Kutta-Verfahren nahezu perfekt mit der analytischen Lösung übereinstimmt, sind beim Euler-Verfahren schon deutliche Abweichungen zu erkennen.  
+
+    <p>Zum Abschluss möchte ich noch zeigen, wie eine adaptive Schrittweitensteuerung umgesetzt werden kann. Die Grundidee dahinter ist, die Integration mit Verfahren verschiedener Ordnung durchzuführen und je nach Abweichung zwischen den Verfahren, die Schrittweite anzupassen. Dabei geht man davon aus, dass ein RK5 Verfahren genauere Ergebnisse liefert als ein RK4 Verfahren. Wenn der Fehler zwischen den beiden zu groß wird, wird die Schrittweite reduziert. Die nachfolgend verwendete Methode nennt sich Runge-Kutta-Fehlberg-Methode oder kurz RK45.
+
+    <p><div style="max-width:750px; margin:auto;">
+  <textarea id="code0">
+def step(s, x, *params):  # Runge Kutta Fehlberg Methode
+  k1 = s.h * s.f(x, *params)
+  k2 = s.h * s.f(x + 1/4*k1, *params)
+  k3 = s.h * s.f(x + 3/32*k1 + 9/32*k2, *params)
+  k4 = s.h * s.f(x + 1932/2197*k1 - 7200/2197*k2 + 7296/2197*k3, *params)
+  k5 = s.h * s.f(x + 439/216*k1 - 8*k2 + 3680/513*k3 - 845/4104*k4, *params)
+  k6 = s.h * s.f(x - 8/27*k1 + 2*k2 - 3544/2565*k3 + 1859/4104*k4 - 11/40*k5, *params)
+
+  rk4 = 25/216*k1 + 1408/2565*k3 + 2197/4101*k4 - 1/5*k5  # initiale Schätzung mit RK4
+  rk5 = 16/135*k1 + 6656/12825*k3 + 28561/56430*k4 - 9/50*k5 + 2/55*k6 # bessere Schätzung mit RK5
+
+  err = np.max(np.abs(rk4-rk5)) # max() weil x mehrdimensional sein kann
+  
+  if err != 0:
+      s.h = 0.9 * s.h * (s.tol / err)**(1/5) # s.tol wird in Klasse gesetzt
+  
+  s.x = s.x + rk5
+  s.H += s.h 
+
+  return s.x, s.H </textarea>
+      </div>
+
+  <p>Und hier das Ergebnis mit variabler Schrittweite:
+  <p> <div style="margin:auto; max-width:500px;"><img src="variableStep.png"></div>
+  <p>In Bereichen in denen sich die Steigung schnell ändert ist die Schrittweite gering. Bereiche mit kleiner Steigungsänderung werden hingegen sehr schnell durchschritten. Das spart Funktionsauswertungen und kann bei gleicher Genauigkeit deutlich schneller zur Lösung führen. Insbesondere bei steifen ODEs die sowohl sehr kleine, als auch sehr große Eigenwerte aufweisen, sind Solver mit variabler Schrittweite der Standard.
+
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XOR</title>
+  <link rel="icon" type="image/x-icon" href="../../favicon.png">
+  <link rel="stylesheet" type="text/css" href="../../style.css">
+  <link rel="stylesheet" href="../../libs/codemirror/codemirror.css" />
+  <link rel="stylesheet" href="../../libs/codemirror/monokai.css" />
+  <script src="../../libs/codemirror/codemirror.js"></script>
+  <script src="../../libs/codemirror/python.js"></script>
+  <script>
+    window.onload = function () {
+      for (var i = 0; i < 1; i++) {
+        CodeMirror.fromTextArea(document.getElementById("code" + i.toString()), {
+          lineNumbers: true, mode: 'python', theme: 'monokai', readOnly: 'true',
+          viewportMargin: "10"
+        });
+      }
+    }
+  </script>
+  <style>
+    .CodeMirror {
+      height: auto;
+    }
+    table, th, td {
+      border: 1px solid;
+      border-collapse: collapse;
+    }
+  </style>
+
+</head>
+
+<body>
+  <a href="../../index.html"><ul> <li>home</li> </ul></a>
+  <h2> XOR Verschlüsselung </h2>
+  <p>Hier möchte ich ein einfaches, aber geniales Verschlüsselungsverfahren auf Basis der XOR Logik vorstellen. Bei Einhaltung einiger Grundsätze gilt das Verfahren als mathematisch sicher.
+
+  <p>Die Grundlage des Verfahrens ist der sogenannte XOR-Baustein: 
+  <p> <div style="margin:auto; max-width:230px;"><img src="xor.png"></div>
+  
+  <p>Diesen Baustein kann man als kleine Box begreifen, die an ihrem Ausgang genau dann eine 1 ausgibt, wenn die Summe ihrer beiden Eingänge exakt 1 ist. (An den Eingängen kann entweder 1 oder 0 anliegen) 
+    Der Ausgang ist also genau dann 1 wenn die Eingänge unterschiedlich sind. Die Logiktabelle sieht wie folgt aus:
+
+  <table style="margin:auto;">
+    <tr><th>Eingang 1</th><th>Eingang 2</th><th>Ausgang</th></tr>
+    <tr><td>0</td><td>0</td><td>0</td></tr>
+    <tr><td>0</td><td>1</td><td>1</td></tr>
+    <tr><td>1</td><td>0</td><td>1</td></tr>
+    <tr><td>1</td><td>1</td><td>0</td></tr>
+  </table>
+
+  <p>Eingang 1 könnte man nun als Klartext, Eingang 2 als Schlüssel und den Ausgang als Geheimtext bezeichnen. Fertig ist das Verschlüsselungsverfahren! Um vom Klartext zum Geheimtext zu kommen, muss man also jedes Bit des Klartextes zusammen mit dem entsprechenden Bit des Schlüssels durch den XOR-Baustein leiten. Das Schöne ist, das geht auch in die andere Richtung. Also der Geheimtext muss nur bitweise mit dem Schlüssel per XOR verknüpft werden, um zurück zum Klartext zu kommen. 
+  
+  <p>Ist der Schlüssel nicht gleich lang wie der Klartext, so kann er beliebig lange aneinandergereiht werden. Doch dies erhöht natürlich das Risiko, dass ein Angreifer dadurch im Geheimtext Muster erkennt. Soll das Verfahren theoretisch sicher sein, so wählt man einen komplett zufälligen Schlüssel, der die gleiche Länge wie der Klartext aufweist. Der Schlüssel sollte außerdem nie mehrfach verwendet werden. Denn wenn dem Angreifer Klartext und Geheimtext einer alten Nachricht in die Hände fallen, so kennt er auch automatisch den Schlüssel. Werden die drei genannten Kriterien eingehalten, so gilt das Verfahren als sicher.
+
+  <p>Hier noch eine Python Funktion mit der aufgrund der Bidirektionalität von XOR sowohl verschlüsselt als auch entschlüsselt werden kann:
+
+  <p><div style="max-width:500px; margin:auto;">
+    <textarea id="code0">
+def XorEncryptDecrypt(message: str, key: str) -> str:
+  out = []
+  for i in range(len(message)):
+    out.append(chr(ord(message[i]) ^ ord(key[i % len(key)])))
+  return ''.join(out)</textarea>
+  </div>
+
+<p>"ord()" wandelt ein Zeichen in den zugehörigen Unicode-Integer um. "^" stellt den XOR Operator dar und mit "chr()"
+wird zurück in Unicode gewandelt<a href="encDec.html" style="text-decoration: none; color: inherit;">.</a>
+
+</body>
+
+</html>

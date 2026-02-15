@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Die Heizung im Kühlschrank</title>
+	<link rel="icon" type="image/x-icon" href="../../favicon.png">
+	<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body> <a href="../../index.html"><ul> <li>home</li> </ul></a>
+	<h2> Die Heizung im Kühlschrank </h2>
+
+	<p> Kürzlich bemerkte ich, dass der Apfel, den ich gerade aus dem Kühlschrank genommen hatte, auf einer Seite warm war. Bei der darauf folgenden Inspektion des Kühlschranks fiel mir eine handflächengroße heiße Stelle an der linken Innenwand auf. Der Kühlschrank ist so gut isoliert. Warum gibt es eine heiße Stelle im Inneren?
+	<p>
+	<div style="margin:auto; max-width:600px;"><img src="fridge.jpg"></div>
+
+	<p>Mein Gerät ist eine Kombination aus Kühlschrank und Gefrierschrank. Genauer gesagt handelt es sich um den Liebherr CUPesf 3505 aus dem Jahr 2017. Im Kühlfach sollte die Temperatur etwa 7°C betragen, während sie im Gefrierfach bei etwa -18°C liegen sollte. Interessanterweise verfügt das Gerät nur über einen Kompressor und einen Kühlkreislauf. Die Ingenieure von Liebherr mussten also einen Weg finden, um aus einem Kühlkreislauf zwei deutlich unterschiedliche Temperaturen zu erzeugen. Hierfür wird das Kältemittel zunächst durch den Gefrierteil geleitet. Dort nimmt es eine bestimmte Menge an Energie auf. Wenn es dann im Kühlschrankfach ankommt, ist es bereits deutlich wärmer. Wenn dieser Prozess richtig eingestellt wird, erreichen beide Fächer die gewünschte Temperatur.
+
+	<p>Es gibt jedoch ein Problem: Die Umgebungstemperatur beeinflusst das Gleichgewicht zwischen Kühl- und	Gefrierfach. Um zu verstehen, warum das so ist, kann man den Extremfall betrachten: Der Kühlschrank steht im Winter draußen bei genau 7°C Umgebungstemperatur. In diesem Fall müsste der Kompressor nie laufen, um 7°C im Kühlfach aufrechtzuerhalten. Wenn der Kompressor jedoch nie läuft, würde das Gefrierfach auch auf eine	Temperatur von 7°C ansteigen.
+
+	<p>Die perverse Lösung der Liebherr-Ingenieure: Sie installieren ein Heizelement im Kühlfach. Genau diese Heizung verursacht die heiße Stelle an der Innenwand meines	Kühlschranks. Bei meinem Gerät startet der Kompressor, wenn die Temperatur im Kühlfach über 7°C liegt. Das Einschalten der Heizung führt also zu niedrigeren Gefrierfachtemperaturen, weil der Kompressor häufiger aktiviert wird um die 7°C im Kühlfach zu gewährleisten. Liebherr erwähnt die Heizung in ihren Kombigeräten im zweiten Absatz dieses <a href="https://blog.liebherr.com/appliances/in/why-do-refrigerators-have-heaters-freshmag/" target="_blank">Blogbeitrags</a>, der unter der Kategorie "Innovation & Technologie" veröffentlicht wurde.
+
+	<p> Also verwendet Liebherr den Strom ihrer Kunden, um das Kühlfach zu heizen. Bei meinem Gerät sind das dauerhaft 10 Watt für das Heizelement. Zusätzlich werden ca. 5 Watt benötigt, um die 10 Watt aus dem Kühlschrank abzuleiten. (angenommen, der <a href="https://en.wikipedia.org/wiki/Coefficient_of_performance" target="_blank">COP</a> liegt bei 2, dann beträgt die Gesamtleistung (Heizung + Kühlschrank) 15 Watt).	Die Vermutung lag zunächst nahe, dass die Heizleistung geregelt werden kann. Tatsächlich sieht es jedoch so aus, als würde die Heizung unter 22°C Umgebungstemperatur 10 Watt verbrauchen und oberhalb von 22°C Umgebungstemperatur einfach ausgeschaltet werden. Daraus ergibt sich eine dauerhafte zusätzliche Leistungsaufnahme von 15 Watt, welche zu 130 kWh Energieverbrauch oder 39 € zusätzlichen Kosten pro Jahr führt. (bei 0,3 €/kWh und einer dauerhaften Umgebungstemperatur unter 22°C)
+
+	<p>Die Tests, bei denen dieser Kühlschrank seine A++-Bewertung erhalten hat, wurden vermutlich bei Temperaturen über 22°C durchgeführt. Bei meiner Recherche bin ich auf diese <a href="https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX%3A32010R1060" target="_blank"> EU-Verordnung zur Energiekennzeichnung von Kühlgeräten </a> aus dem Jahr 2010 gestoßen. Dort wird detailliert beschrieben, wie der EEI (Energieeffizienzindex) berechnet werden muss. Allerdings konnte ich keine Angaben zu den Umgebungstemperatur-Anforderungen während der Energieverbrauchsmessung finden. In	Anhang VIII Absatz 2 wird lediglich angegeben, dass die Umgebungstemperatur unter Standardtestbedingungen bei 25°C liegt.
+
+	<p>2019 erschien dann die <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32019R2016"	target="_blank"> neue Version,</a> der Verordnung. Es wurden zwar einige gute Verbesserungen gegenüber der alten Version vorgenommen. Ganz zufrieden bin ich jedoch noch nicht, da die Verwendung eines Heizelementes nicht explizit verboten wird. Immerhin wurde folgender Satz ergänzt:
+
+	<p><i>"To improve the effectiveness of this Regulation, products that automatically alter their performance in test	conditions to improve the declared parameters should be prohibited."</i>
+
+	<p>Es scheint so, als hätten sie aus dem Volkswagen Dieselskandal gelernt. Weiterhin ist positiv hervorzuheben, dass	das Testverfahren geändert wurde. Neue Geräte, die mit Klimaklasse N verkauft werden, werden nun bei Umgebungstemperaturen von 16 °C und 32°C getestet und anschließend wird der Durchschnitt berechnet.
+
+	<p>Was also tun, wenn die EU nicht in der Lage ist, Unternehmen daran zu hindern, ineffiziente Produkte zu verkaufen? In diesem Fall ist die Lösung einfach: Einfach den Stecker des Heizelements ziehen. (Vorsicht	Netzspannung!) Das Bild unten zeigt die Leistungsseite der Hauptplatine. Bei meinem Gerät führt der Stecker mit der blauen Markierung zum Heizelement und der Stecker mit der gelben Markierung zur Beleuchtung:
+
+	<p>
+	<div style="margin:auto; max-width:600px;"><img src="power.jpg"></div>
+
+	<p>Im Übrigen besitzen nur die größeren Geräte dedizierte Heizelemente. Die kleineren Kühl-Gefrierkombinationen	heizen oft mit der eingebauten Glühbirne. Um diese effizienter zu machen, kann man die Glühbirne durch eine LED	ersetzen.
+
+	<p>Um zu sehen, welche Folgen das Abstecken des Heizelements hat, habe ich einige Messungen durchgeführt. Dazu wurde	die Temperatur im Kühl- und Gefrierfach sowie die Umgebungstemperatur gemessen. Um zu erkennen, wann die Türen geöffnet werden, wurden zwei Hallsensoren angebracht. Das Ergebnis ist wenig überraschend. Die Gefrierfachtemperatur nimmt im Mittel zu, wenn das Heizelement deaktiviert wird. Die Temperatur im Kühlfach wird wie erwartet nicht beeinflusst, da sie aktiv auf 7°C geregelt wird. Die Spitzen in der Kühlfachtemperatur traten auf, als die Tür geöffnet wurde. Die Umgebungstemperatur betrug für beide Messungen etwa 20°C. Ich habe	beschlossen, dass ich mit der erhöhten Temperatur im Gefrierfach gut leben kann, da trotzdem regelmäßig -18°C erreicht werden. Das spart 39 € pro Jahr an Stromkosten (Umgebung < 22°C) und das Gerät wird zusätzlich länger halten, da es nicht so oft läuft. Vergleicht man bei der Gefrierfachtemperatur die Zeit zwischen Hoch- und Tiefpunkt mit und ohne Heizung, so erkennt man die kürzeren Laufzeiten des Kompressors.
+
+	<p><div style="margin:auto; max-width:600px;"><img src="meassure.png"></div>
+
+	<p>Abschließend kann man noch einen Blick auf die Hauptplatine werfen. Es wurde ein Atmel ATmega168	Mikrocontroller verbaut. Nur die Hälfte der Platine ist bestückt. Ich vermute mein Kühlschrank hat also viele "coole" Features nicht verbaut. Die schlechte Fertigungsqualität fällt jedoch sofort auf.	Stecker werden direkt auf die Platine gesteckt und die Leiterplatte fühlt sich an, als wäre sie aus Pappe:
+	<div style="margin:auto; max-width:600px;"><img src="controller.jpg"></div>
+
+	<p>Und hier noch die Sensorseite der Platine:
+	<div style="margin:auto; max-width:600px;"><img src="sensors.jpg"></div>
+
+	<p>Das graue Kabel, das aus roter und blauer Ader besteht, ist das PWM-Signal, das zum Motorsteuergerät des Kompressors führt. Die Anzeigeeinheit wird am violett codierten Steckplatz verbunden. Vermutlich wurde dort ein digitaler Bus implementiert, um die Kühlschrank- und Umgebungstemperatur zu empfangen und die Daten für die Anzeige zu übertragen. Die Kabel mit den blau-braunen Adern sind die Reed-Kontakte der beiden Türen.
+</body>
+
+</html>

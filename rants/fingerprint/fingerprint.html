@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fingerabdruck</title>
+  <link rel="icon" type="image/x-icon" href="../../favicon.png">
+  <link rel="stylesheet" type="text/css" href="../../style.css">
+  <style> .info{margin-top: 7px;}</style>
+</head>
+
+<body>
+    <a href="../../index.html"><ul> <li>home</li> </ul></a>
+    <h2> Dein Fingerabdruck im Netz </h2>
+    <p> Folgende Daten (und noch viele mehr) können von einer Website ohne deine Zustimmung erhoben werden. Damit kann eine Website dich identifizieren, ohne Cookies zu setzen.
+
+    <p>
+    <div class = "info"><strong>User-Agent:</strong> <span id="userAgent"></span></div>
+    <div class = "info"><strong>Browser Sprache:</strong> <span id="language"></span></div>
+    <div class = "info"><strong>Referer:</strong> <span id="referer"></span></div>
+    <div class = "info"><strong>Bildschirmauflösung:</strong> <span id="screenResolution"></span></div>
+    <div class = "info"><strong>Farbtiefe:</strong> <span id="colorDepth"></span></div>
+    <div class = "info"><strong>Zeitzone:</strong> <span id="timezone"></span></div>
+    <div class = "info"><strong>CPU-Kerne:</strong> <span id="cores"></span></div>
+    <div class = "info"><strong>RAM (GB):</strong> <span id="ram"></span></div>
+    <div class = "info"><strong>Cookies aktiv:</strong> <span id="cookies"></span></div>
+    <div class = "info"><strong>Pdf Viewer vorhanden:</strong> <span id="pdf"></span></div>
+    <div class = "info"><strong>Bot / Webdriver:</strong> <span id="webdriver"></span></div>
+    <div class = "info"><strong>WebGL Fingerprint:</strong> <span id="webglFingerprint"></span></div>
+    <div class = "info"><strong>Canvas Fingerprint Hash:</strong> <span id="canvasFingerprint"></span></div>
+
+    <script>
+        document.getElementById("userAgent").textContent = navigator.userAgent;
+        document.getElementById("language").textContent = navigator.language;
+        document.getElementById("referer").textContent = document.referrer || "Kein Referer verfügbar";
+        document.getElementById("screenResolution").textContent = `${window.screen.width} x ${window.screen.height}`;
+        document.getElementById("colorDepth").textContent = window.screen.colorDepth;
+        document.getElementById("timezone").textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        document.getElementById("cores").textContent = navigator.hardwareConcurrency || "nicht verfügbar";
+        document.getElementById("ram").textContent = navigator.deviceMemory || "nicht verfügbar";
+        document.getElementById("cookies").textContent = navigator.cookieEnabled;
+        document.getElementById("pdf").textContent = navigator.pdfViewerEnabled;
+        document.getElementById("webdriver").textContent = navigator.webdriver;
+
+        function getWebGLFingerprint() {
+            var canvas = document.createElement("canvas");
+            var gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+            if (!gl) {
+                return "WebGL nicht unterstützt";
+            }
+            var debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+            var renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+            var vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+            return `${renderer} - ${vendor}`;
+        }
+        document.getElementById("webglFingerprint").textContent = getWebGLFingerprint();
+
+        function hashString(str) {
+            let hash = 0x811c9dc5;
+            for (let i = 0; i < str.length; i++) {
+                hash ^= str.charCodeAt(i);
+                hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
+            }
+            return (hash >>> 0).toString(16);
+        }
+      
+        function getCanvasFingerprint() {
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+            ctx.textBaseline = 'top';
+            ctx.font = '16px Arial';
+            ctx.fillStyle = 'red';
+            ctx.fillText('Hello my friend', 10, 10);
+            ctx.strokeStyle = 'blue';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(5, 30, 100, 50);
+            ctx.fillStyle = 'green';
+            ctx.fillRect(10, 35, 90, 40);
+            var dataURL = canvas.toDataURL();
+            return hashString(dataURL);
+        }
+        document.getElementById("canvasFingerprint").textContent = getCanvasFingerprint();
+
+    </script>
+
+    
+</body>
+
+</html>
+
+<!DOCTYPE html>

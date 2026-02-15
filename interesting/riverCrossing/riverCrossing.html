@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Optimale Flussüberquerung</title>
+  <link rel="icon" type="image/x-icon" href="../../favicon.png">
+  <link rel="stylesheet" type="text/css" href="../../style.css">
+  <link rel="stylesheet" href="../../libs/katex/katex.css">
+  <script defer type="text/javascript" src="../../libs/katex/katex.js"></script>
+  <script defer src="../../libs/katex/katexAutoRender.js" onload="renderMathInElement(document.body);"></script>
+
+</head>
+
+<body>
+  <a href="../../index.html"><ul> <li>home</li> </ul></a>
+  <h2> Optimale Flussüberquerung </h2>
+  <p> Vor kurzem habe ich einen Fluss mit einer Fähre überquert und konnte beobachten, dass die Fähre mehr oder weniger eine gerade Linie über den Fluss nahm. Ich hatte das Gefühl, dass das nicht der optimale Pfad war und beschloss etwas genauer über die Sache nachzudenken.
+
+  <figure style="margin:auto; max-width:600px; text-align:center;">
+  <img src="ferry.jpg" style="max-width:100%;">
+  <figcaption> </figcaption>
+  </figure>
+
+  <p> Wenn ich einen Autopiloten für eine Flussfähre entwerfen würde, wie würde dieser die Fähre bewegen? Ich denke optimal wäre es, wenn die Fähre möglichst wenig Energie verbraucht, schnell ankommt und keine anderen Wasserfahrzeuge gefährdet. Den letzten Punkt würde ich ausklammern, weil eine Fähre nach den Regeln der Binnenschifffahrtsstraßenordnung so gut wie immer Vorfahrt hat. Außerdem gehe ich davon aus, dass immer noch ein Kapitän an Bord ist, der im Notfall meinen Autopiloten deaktivieren und ein Ausweichmanöver starten könnte. Bleibt noch die Energieminimierung sowie eine geringe Fahrzeit. Wobei diese beiden Ziele gegensätzlich sind.
+
+  <p> Bei einem Fluss ohne Strömung ist die Sache recht einfach. Die Fähre würde auf gerader Strecke von Anlegestelle zu Anlegestelle fahren. Ohne Zeitlimit würde sie unendlich lange dafür brauchen und mit Zeitlimit genau die Maximalzeit. Würde sie schneller fahren und die Maximalzeit unterbieten, wäre es schließlich nicht mehr energie-optimal. Beliebig schnell kann sie natürlich auch nicht fahren, wodurch die Maximalzeit nicht beliebig klein sein kann.
+  
+  <p> Interessant wird es erst, wenn der Fluss eine Strömung aufweist. Nun braucht es kein Zeitlimit mehr um eine energie-optimale Lösung mit endlicher Fahrzeit berechnen zu können. Der Grund dafür ist, dass auf der Stelle stehen jetzt Energie kostet, da gegen die Strömung angehalten werden muss. Es ist also relativ intuitiv, dass wir einen energie-optimalen Pfad berechnen können ohne eine feste Fahrzeit vorgeben zu müssen.
+ 
+  <p> Um den Fall mit Strömung genauer untersuchen zu können, brauchen wir ein Modell der Fähre:
+
+  \[
+    \mathbf{f}(x_0, u_0, u_1) 
+    = 
+    \begin{bmatrix} 
+      \dot{x}_0 \\ 
+      \dot{x}_1 
+    \end{bmatrix} 
+    = 
+    \begin{bmatrix} 
+      u_0 \cdot cos(u_1) \\
+      u_0 \cdot sin(u_1) + d(x_0)
+    \end{bmatrix}
+  \]
+
+  <p> Dabei bezeichnet \(x_0\) die Richtung senkrecht zum Fluss und \(x_1\) zeigt in Flussrichtung. \(u_0\) ist die Antriebsgeschwindigkeit und \(u_1\) die Richtung der Fähre. Das Modell ist recht einfach gehalten. Mit dem nachfolgend beschriebenen Verfahren könnten jedoch problemlos weitere Zustände (etwa die Beschleunigung und Winkelbeschleunigung) und geschwindigkeitsabhängige Dämpfungstherme berücksichtigt werden.
+
+  <p> Für die Strömung \(d(x_0)\) können wir eine quadratische Funktion annehmen. Die maximale Strömung \(v_m\) tritt in der Mitte des Flusses auf. An den Ufern herrscht die Strömung \(v_b\). Die Flussbreite wird mit \(w\) bezeichnet:
+  \[
+      d(x_0) = -4 \cdot \frac{(v_m - v_b)}{w^2} \cdot x_0 \cdot (x_0 - w) + v_b
+  \]
+
+  <p> Wenn wir den energie-optimalen Pfad über den Fluss suchen, können wir das Problem folgendermaßen formulieren: 
+
+  \[
+    \begin{aligned}
+      & \min_{u_0, u_1} && \int_0^{t_f} \underbrace{\frac{u_0^2}{2}}_{\kappa} \,~dt \\\\
+
+      & \text{s.t.}           && \dot{\mathbf{x}} = \mathbf{f}(x_0, u_0, u_1)\\
+      &                       && \mathbf{x}(0) = [0,~0]\\ 
+      &                       && \mathbf{x}(t_f) = [w,~0]\\
+    \end{aligned}
+  \]
+
+  <p> Wir suchen also die Steuerfunktionen \(u_0(t)\) und \(u_1(t)\) sowie die Endzeit \(t_f\), sodass die Antriebsenergie minimiert wird und gleichzeitig die Systemdynamik und Randbedingungen eingehalten werden.
+  
+  <p> Um das Problem zu lösen können wir die Variationsrechnung heranziehen. Die notwendigen Bedingungen können mithilfe der adjungierten Zustände \(\boldsymbol{\lambda}\) und der Hamiltonfunktion \(H=\kappa+\boldsymbol{\lambda}^T\mathbf{f}\) folgendermaßen geschrieben werden: 
+
+  <p>
+  \[
+  \dot{\mathbf{x}} = \frac{\partial H}{\partial \boldsymbol{\lambda}} = \mathbf{f}(\mathbf{x}, \mathbf{u})  \\[1.2ex]
+  \dot{\boldsymbol{\lambda}} = -\frac{\partial H}{\partial \mathbf{x}} = -\left( \frac{\partial \mathbf{f}}{\partial \mathbf{x}} \right)^T \boldsymbol{\lambda} - \frac{\partial \kappa}{\partial \mathbf{x}}  \\[1.2ex]
+  0 = \frac{\partial H}{\partial \mathbf{u}} = \left( \frac{\partial \mathbf{f}}{\partial \mathbf{u}} \right)^T \boldsymbol{\lambda} + \frac{\partial \kappa}{\partial \mathbf{u}} 
+  \]
+
+  <p>Da die Endzeit \(t_f\) beliebig ist, braucht es eine weitere Bedingung um das Differentialgleichungssystem lösen zu können. Die Hamiltonfunktion muss bei \(t = t_f\) verschwinden. 
+  <p>
+    \[
+    H(\mathbf{x}(t_f), \mathbf{u}(t_f), \boldsymbol{\lambda}(t_f)) = 0
+    \]
+  <p>Die Optimalitätsbedingungen definieren eine Zwei-Punkt-Randwertaufgabe für die optimalen Zustände \(\mathbf{x}^* (t)\), \(\boldsymbol{\lambda}^* (t)\) und die optimale Steuerung \(\mathbf{u}^* (t)\). Ich habe sie hier mit einem Schießverfahren für die Parameter \(w\) = 100m, \(v_m\) = 5m/s, \(v_b\) = 0.5m/s, gelöst:
+
+
+  <figure style="margin:auto; max-width:800px; text-align:center;">
+  <img src="traj.png" style="max-width:100%;">
+  <figcaption> </figcaption>
+  </figure>
+
+  <p> Wie vermutet dreht die Fähre zunächst in die Strömung, um im ruhigen Uferbereich flussaufwärts zu fahren. Dann lässt sie sich von der starken Strömung in der Flussmitte weiter flussabwärts treiben als es der Zielpunkt erfordern würde um schließlich wieder den ruhigen Uferbereich auszunutzen, um in den Zielpunkt zu fahren. Die optimale Überquerungszeit \(t_f^*\) wird in diesem Fall mit etwa 31 Sekunden berechnet. Wird eine geringere Strömungsgeschwindigkeit von bspw. \(v_m\) = 2m/s angenommen, erhöht sich die optimale Überquerungszeit auf 80 Sekunden. Mittels Pontryagins Maximumprinzip können auch Beschränkungen der Stellgrößen berücksichtigt werden. Dann verliert die Bedingung \(0 = \frac{\partial H}{\partial \mathbf{u}}\) ihre Gültigkeit und die optimale Steuerung resultiert aus der Minimierung der Hamiltonfunktion.
+  
+  <p> Die zeitoptimale Flussüberquerung kann berechnet werden, wenn die Kostenfunktion \(\kappa\) = 1 gewählt wird. Dann muss jedoch auch die Antriebsgeschwindigkeit \(u_0\) auf einen festen Wert gesetzt werden. Andernfalls würde \(u_0\) unendlich groß werden.
+
+  <p> Eine konstante Strömungsfunktion \(d(x_0)\) hätte zur Folge, dass der Fluss in gerader Linie überquert würde. Ähnlich wie dies ohne Strömung der Fall wäre. Der Unterschied zum Fall ohne Strömung ist jedoch, dass es einen Vorhaltewinkel - und auch im Fall der energie-optimalen Überquerung - eine endliche Ankunftszeit gibt. 
+  Die Menge der Energie, die mit diesem Verfahren eingespart werden kann, hängt also maßgeblich von der Strömungsfunktion ab. Bei konstanter Strömungsfunktion würde sich der Energiesparvorteil auf die Bestimmung der optimalen Überführungszeit bzw. des konstanten optimalen Vorhaltewinkels beschränken.
+</body>
+
+
+
+</html>

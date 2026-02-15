@@ -1,0 +1,226 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Regelungstechnik Spiel</title>
+	<link rel="icon" type="image/x-icon" href="../../favicon.png">
+	<link rel="stylesheet" type="text/css" href="../../style.css">
+	<link rel="stylesheet" href="../../libs/codemirror/codemirror.css" />
+	<link rel="stylesheet" href="../../libs/codemirror/monokai.css" />
+	<script src="../../libs/codemirror/codemirror.js"></script>
+	<script src="../../libs/codemirror/jsmode.js"></script>
+	<script src="../../libs/codemirror/matchbrackets.js"></script>
+
+
+	<script>
+		var gtime;
+		var startTicks;
+		var state = [0.0, 0.0, 0.0, 3.3, 0.0, 0.0]
+		var debug = 0;
+		var onlyfirstFrame;
+		var myCodeMirror;
+		var xPx;
+		var ctx;
+		var canvasW = 1;
+		var canvasH = 1;
+		var poleL = 1;
+		var cartW = 1;
+		var cartH = 1;
+		var discR = 1;
+		var xScale = 1;
+		const m = 0.5;
+		const M = 1.1;
+		const l = 0.5;
+		const g = 9.81;
+		const D = 0.5;
+		const d = 0.1;
+
+		function moveArm() {
+			var discX = xPx + poleL * Math.sin(state[3] - Math.PI) + canvasW / 2;
+			var discY = poleL * Math.cos(state[3] - Math.PI) + canvasH / 2;
+
+			ctx.lineWidth = 5;
+			ctx.beginPath();
+			ctx.moveTo(xPx + canvasW / 2, canvasH / 2);
+			ctx.lineTo(discX, discY);
+			ctx.strokeStyle = "#185abc";
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.arc(discX, discY, discR, 0, Math.PI * 2, true);
+			ctx.closePath();
+			ctx.fillStyle = 'grey';
+			ctx.fill();
+
+			ctx.lineWidth = 1;
+			ctx.beginPath();
+			ctx.moveTo(0, canvasH / 2 + cartH / 2);
+			ctx.lineTo(canvasW, canvasH / 2 + cartH / 2);
+			ctx.strokeStyle = "grey";
+			ctx.stroke();
+		}
+
+		function moveCart() {
+			ctx.beginPath();
+			ctx.rect(xPx + canvasW / 2 - cartW / 2, canvasH / 2 - cartH / 2, cartW, cartH);
+			ctx.closePath();
+			ctx.fillStyle = 'grey';
+			ctx.fill();
+		}
+
+		function dynamics(s, u) {
+			var sd0 = s[1];
+			var sd1 = (u - D * s[1] + g * m * Math.sin(2 * s[3]) / 2 - l * m * s[4] ** 2 * Math.sin(s[3])) / (M + m * Math.sin(s[3]) ** 2);
+			var sd2 = s[4];
+			var sd3 = (-d * s[4] + u * Math.cos(s[3]) + M * g * Math.sin(s[3]) - d * s[1] * Math.cos(s[3]) + g * m * Math.sin(s[3]) -
+				l * m * s[4] ** 2 * Math.sin(2 * s[3]) / 2) / (l * (M + m * Math.sin(s[3]) ** 2));
+			return [sd0, sd1, sd2, sd3];
+		}
+
+		function evalWrapper() {
+			var instruction = String(myCodeMirror.getValue());
+			const forbidden = ["gtime", "ctx", "xPx", "window", "this", "self",
+				"state", "eval", "exec", "new", "CodeMirror", "instruction", "document"];
+			for (var i = 0; i < forbidden.length; i++) {
+				if (instruction.includes(forbidden[i])) {
+					instruction = instruction.replace(forbidden[i], String("/* " + forbidden[i].split('').join(' ') + " */"));
+					myCodeMirror.setValue(instruction);
+				}
+			}
+			eval(instruction);
+			return controller(gtime, state[0], state[1], state[2], state[3], state[4], state[5]);
+		}
+
+		function simulate() {
+			var ticks = performance.now();
+			gtime = (ticks - startTicks) / 1000.0;
+			var dt = (ticks - oldTicks) / 1000.0;
+			oldTicks = ticks;
+
+			ctx.clearRect(0, 0, canvasW, canvasH);
+
+			var FCtr = 0;
+			if (!onlyfirstFrame) {
+				FCtr = evalWrapper();
+				var F = FCtr;
+				var errLeft = -canvasW / 2 - (xPx - cartW / 2)
+				var errRight = canvasW / 2 - (xPx + cartW / 2)
+				if (errLeft > 0) {
+					F = FCtr + errLeft - 10 * state[1];
+				}
+				if (errRight < 0) {
+					F = FCtr + errRight - 10 * state[1];
+				}
+
+				var stateD = dynamics(state, F);
+
+				state[2] = stateD[1];
+				state[1] += state[2] * dt;
+				state[0] += state[1] * dt;
+
+				state[5] = stateD[3];
+				state[4] += state[5] * dt;
+				state[3] += state[4] * dt;
+			}
+
+			document.getElementById("pos").innerHTML = "pos: " + state[0].toFixed(1);
+			document.getElementById("angle").innerHTML = "angle: " + state[3].toFixed(1);
+			document.getElementById("force").innerHTML = "force: " + FCtr.toFixed(1);
+			document.getElementById("debug").innerHTML = "debug: " + debug.toFixed(1);
+
+			xPx = state[0] * xScale;
+
+			moveCart();
+			moveArm();
+
+			if (!onlyfirstFrame) {
+				window.requestAnimationFrame(simulate);
+			}
+
+		}
+
+		function startAnimation(once, doRand) {
+
+			if (doRand) {
+				var randStartAngle = Math.PI + 0.5 * (Math.random() - 0.5);
+				state = [0.0, 0.0, 0.0, randStartAngle, 0.0, 0.0];
+			}
+			oldTicks = performance.now();
+			startTicks = performance.now();
+			onlyfirstFrame = once;
+			ctx = document.getElementById('canvas').getContext('2d');
+			window.requestAnimationFrame(simulate);
+		}
+
+		window.addEventListener('resize', initSizes);
+
+		function initSizes() {
+			canvasW = document.getElementById("description").offsetWidth;
+			canvasH = canvasW / 3;
+			poleL = canvasW / 10;
+			cartW = canvasW / 12;
+			cartH = canvasW / 25;
+			discR = canvasW / 60;
+			xScale = canvasW / 20;
+			myCodeMirror.setSize(canvasW, canvasW / 2);
+			var canvas = document.getElementById('canvas');
+			canvas.width = canvasW;
+			canvas.height = canvasH;
+			startAnimation(true, false);
+		}
+
+		window.onload = function () {
+			myCodeMirror = CodeMirror.fromTextArea(document.getElementById("editor"),
+				{
+					mode: "javascript",
+					theme: "monokai",
+					matchBrackets: true,
+					lineWrapping: false
+				});
+			initSizes();
+		}
+
+	</script>
+
+
+</head>
+
+<body style="max-width:600px">
+	<a href="../../index.html"><ul> <li>home</li> </ul></a>
+	<h2> Regelungstechnik Spiel </h2>
+
+	<div id="description">
+		Hier habe ich ein kleines Regelungstechnik Spiel entworfen. Das Ziel des Spiels ist es, das Pendel mithilfe der JavaScript-Funktion "controller()" aufzuschwingen und es dann in der oberen Position zu stabilisieren. Die "controller()"-Funktion gibt eine Kraft zurück, die auf den Schlitten wirkt. Der Button "execute" führt den Code aus. Mit "reset" wird das Pendel in eine zufällige Ausgangsposition zurück gebracht. Falls jemand Inspiration benötigt, meine Lösung gibt es <a href="solution.html" target="_blank">hier</a>. 
+		Der Grund, warum meine Lösung funktioniert, ist <a href="EnergyControl.pdf" target="_blank">hier</a> beschrieben.
+	</div>
+
+
+	<p>
+		<canvas style="border: 1px solid;" id="canvas"> </canvas>
+
+	<p>
+		<span style="min-width: 13ch;display: inline-block;" id="pos"></span>
+		<span style="min-width: 15ch;display: inline-block;" id="angle"></span>
+		<span style="min-width: 15ch;display: inline-block;" id="force"></span>
+		<span style="min-width: 15ch;display: inline-block;" id="debug"></span>
+
+	<p>
+
+		<textarea id="editor">
+		
+function controller(time, pos, vel, acc, angle, angleVel, angleAcc)
+{
+  var force = 0.0;
+  debug = time; // write to global variable "debug"
+  return force;
+}
+		</textarea>
+
+		<button type="button" onclick="startAnimation(false, false)">execute</button>
+		<button type="button" onclick="startAnimation(true, true)">reset</button>
+
+
+</body>
+
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Magnetisches Schweben</title>
+	<link rel="icon" type="image/x-icon" href="../../favicon.png">
+	<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+	<a href="../../index.html"><ul> <li>home</li> </ul></a>
+
+	<h2> Magnetisches Schweben </h2>
+
+	<p> Bei diesem Projekt habe ich einen Magneten unter einer Spule zum Schweben gebracht. Die Herausforderungen dabei waren, die geringe Auflösung und das hohe Rauschen des Sensors sowie die Nichtlinearität und Temperaturabhängigkeit der Strecke. Ich verwende den Allegro A1324 Hallsensor, der mit 5mV/G bei meinem Magneten (ca. 500 Gauß an Oberfläche und 15 Gauß in 20mm Höhe) eine maximale Schwebehöhe von ca. 20mm erlaubt. Der Feldgradient im Nahbereich liegt bei etwa 50G/mm, was 250mV/mm entspricht und mit 10 Bit AD-Wandler etwa 0.02mm Positionsauflösung ergibt. Diese Auflösung sinkt nichtlinear mit dem Abstand zum Sensor. Hier ein Video das den Magneten in der Schwebe zeigt: 
+
+	<div style="max-width:300px; margin: auto;"><video src="hover.mp4" controls playsinline preload="metadata"> </video>
+	</div>
+
+	<p> Auch größere Sollwertsprünge können vom Regler verarbeitet werden. Die Sprunghöhe ist durch den Abstand zum Sensor und zum Eisenkern der Spule beschränkt. Wird der Abstand zur Spule zu gering, wird der Magnet vom Eisenkern angezogen, selbst wenn der Spulenstrom umgekehrt wird. Der Energiebedarf, um den Magneten in der Schwebe zu halten, steigt nichtlinear mit dem Abstand zum Eisenkern. Ich verwende einen Gain-Schedule-Regler, der je nach Schwebeposition und Spulentemperatur andere Verstärkungsfaktoren verwendet:
+
+	<div style="max-width:300px; margin: auto;"><video src="jump.mp4" controls playsinline preload="metadata"> </video>
+	</div>
+
+
+
+</body>
+
+</html>

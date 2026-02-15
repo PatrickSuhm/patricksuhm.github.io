@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LineareRegression</title>
+  <link rel="icon" type="image/x-icon" href="../../favicon.png">
+  <link rel="stylesheet" type="text/css" href="../../style.css">
+  <link rel="stylesheet" href="../../libs/katex/katex.css">
+  <script defer type="text/javascript" src="../../libs/katex/katex.js"></script>
+  <script defer src="../../libs/katex/katexAutoRender.js" onload="renderMathInElement(document.body);"></script>
+
+</head>
+
+<body>
+  <a href="../../index.html"><ul> <li>home</li> </ul></a>
+  <h2> Lineare Regression </h2>
+  <p> Hier möchte ich anhand eines einfachen Beispiels zeigen, welch mächtiges Werkzeug die lineare Regression ist und wie sie - trotz ihres Namens - dazu verwendet werden kann, die Parameter von nichtlinearen Systemen zu bestimmen.
+
+  <p> Aufgrund eines bevorstehenden Triathlons habe ich mich gefragt, was ich neben dem Training und der Ernährung tun kann, um meine Endzeit zu verbessern. Bei einem Triathlon verbringt man die längste Zeit des Wettkampfes auf dem Rad (typischerweise 50-55% der Gesamtzeit). Insbesondere bei flachen Radstrecken mit hohen Geschwindigkeiten scheint es lohnenswert, sich über die Aerodynamik beim Radfahren Gedanken zu machen. Da man als Hobbyathlet in der Regel keinen Zugang zu Windtunneltests hat, stellt sich die Frage, wie man seine Aerodynamik optimieren soll, wenn man diese nicht messen kann?
+  
+  <p>
+  <figure style="margin:auto; max-width:600px; text-align:center;">
+  <img src="sw.jpg" style="max-width:100%;">
+  <figcaption>Filippo Ganna 2022 und Graeme Obree 1994 beim Aufstellen ihres Stundenweltrekords. Obree verwendete auf seinem selbst gebauten Rad die später verbotene "crouch"-Position und erzielte damit einen erstaunlichen \(c_dA\) von 0.17 \(\mathrm{m^2}\). Filippo Ganna war 28 Jahre später mit 0.165 \(\mathrm{m^2}\) unterwegs. Er war allerdings auch 13 cm größer und 9 kg schwerer als Obree.</figcaption>
+  </figure>
+
+  <p> Eine Methode, die unter Hobbyfahrern angewendet wird, um ihr Setup zu beurteilen, ist eine fixe Strecke mit verschiedenen Konfigurationen zu absolvieren und zu sehen welche Konfiguration die schnellste Fahrzeit ergibt. Hier hat man allerdings das Problem, dass Ermüdungserscheinungen und Umwelteinflüsse die Tests verfälschen können. Zwar wird in diesen Tests auch darauf geachtet, dass die mittlere Leistung am Ende der Tests konstant bleibt, doch zwei identische Leistungs-Mittelwerte ergeben nicht unbedingt die gleiche Endzeit. Es kommt sehr darauf an, an welchen Stellen man welche Leistung einsetzt. Ich möchte deshalb eine Methode vorstellen, die nicht, oder sehr wenig von Umwelteinflüsse und Ermüdungserscheinungen abhängt und mit der man die Aerodynamik sowie den Rollwiderstand messen kann:
+
+  <p> Man sucht sich einen windstillen Tag und eine Teststrecke mit wenig Höhenmetern und ohne Verkehrsbehinderungen wie Ampeln und Stoppschilder. Außerdem sollte es sich idealerweise um einen Rundkurs handeln, sodass Windeinflüsse heraus gemittelt werden können. Als Messgeräte benötigt man einen Höhenmesser, einen Geschwindigkeitsmesser sowie einen Leistungsmesser.
+
+  <p> Außerdem benötigt man ein Modell was die Geschwindigkeit und Vertikalgeschwindigkeit sowie eventuelle Ableitungen dieser Größen auf die Leistung abbildet:
+
+  <div>
+  \[
+  \begin{aligned}
+    P_{Luft} &= \frac{1}{2} \cdot c_dA \cdot \rho \cdot v^3 \\
+    P_{Roll} &= c_{rr} \cdot m \cdot g \cdot v \\
+    P_{Steig} &= m \cdot g \cdot v_h\\
+    P_{Beschl} &= m \cdot a \cdot v \\
+    P_{Mess} &= P_{Luft} + P_{Roll} + P_{Steig} + P_{Beschl}
+  \end{aligned}
+  \]
+  </div>
+  
+  <p>Mit folgenden Bezeichnungen:
+  <div>
+    \[
+    \begin{array}{rl}
+    v & : ~~\text{Geschwindigkeit } [\mathrm{m/s}] \\
+    a & : ~~\text{Beschleunigung } [\mathrm{m/s^2}] \\
+    v_h & : ~~\text{Vertikalgeschwindigkeit } [\mathrm{m/s}] \\
+    m & : ~~\text{Masse } [\mathrm{kg}] \\
+    g & : ~~\text{Erdbeschleunigung } (9{,}81\, \mathrm{m/s^2}) \\
+    c_dA & : ~~\text{Luftwiderstandsbeiwert mal Stirnfläche } [\mathrm{m^2}] \\
+    c_{rr} & : ~~\text{Rollwiderstandswert } [\mathrm{-}] \\
+    \rho & : ~~\text{Luftdichte (bei } 25^\circ\mathrm{C} \approx 1{,}184\, \mathrm{kg/m^3}\text{)} \\
+    P & : ~~\text{Leistung } [\mathrm{W}]
+    \end{array}
+    \]
+  </div>
+
+  <p> Die Widerstandswerte \( c_dA \) und \( c_{rr} \) können nun aus erhobenen Messdaten mithilfe linearer Regression geschätzt werden. Hier ein Beispiel aus einer meiner Testrunden:
+  <p>
+  <figure style="margin:auto; max-width:600px; text-align:center;">
+  <img src="2d.png" style="max-width:100%;">
+  </figure>
+  <p> Es ergibt sich für meinen Test ein \( c_dA \) von 0.298 \(\mathrm{m^2}\) und ein \( c_{rr} \) von 0.003. Beide Werte liegen im erwarteten Bereich. Wenn ich nun also meine Position auf dem Rad oder bestimmte Anbauteile optimieren möchte, kann ich meine Testrunde absolvieren und erhalte direkt den Luft- und Rollwiderstandswert. Die Rohdaten wurden Tiefpass gefiltert und es wurden alle Zeitstempel mit \(P_{Mess} < 10~\mathrm{W}\) und \(v_h < 0\) heraus gefiltert. Dies ist nötig, da nicht bekannt ist welche Leistung beim Bremsen verloren geht. Wird die Teststrecke mit fortgeschrittener Ermüdung absolviert, resultiert eine geringere Leistung und Geschwindigkeit. Die Modellparameter bleiben jedoch konstant. Wird das Modell leicht umgeformt, kann es als polynomiale Fläche im 3D-Raum dargestellt werden. Nur wenige Samples liegen außerhalb der Fläche:
+  <figure style="margin:auto; max-width:450px; text-align:center;">
+  <img src="3d.png" style="max-width:100%;">
+  </figure>
+  <h3>Wie funktioniert die Lineare Regression?</h3>
+  <p>
+    Auch wenn das zugrundeliegende Modell nichtlinear in den Messgrößen ist, kann man es oft als
+    lineares Modell in den Parametern schreiben. An unserem Beispiel:
+  
+  <p>\[  P_{Mess} = \beta_1 \cdot v^3 + \beta_2 \cdot v + \beta_3 \cdot v_h + \beta_4 \cdot a \cdot v   \]
+  
+  <p> Mit dem Featurevektor \( \boldsymbol\phi = \bigl[\;v^3,\; v, \;v_h,\; a \cdot v\;\bigr] \), dem Parametervektor \(\boldsymbol\beta = [\;\beta_1,\;\beta_2,\;\beta_3,\;\beta_4\;]\) und dem Modellausgang \(y = P_{Mess}\) ergibt sich:
+  
+  <p>\[ y = \boldsymbol\beta^\top \boldsymbol\phi \]
+
+  <p>
+    Wir haben \(N\) Messpunkte \(\{(\;P_{Mess}^{(i)},\;v^{(i)},\;a^{(i)},\;v_h^{(i)}\;)\}_{i=1}^N\) und folglich auch \(N\) Featurevektoren und Ausgangsmessungen:
+    \[
+      \boldsymbol\phi^{(i)} = \bigl[\;(v^{(i)})^3,\;v^{(i)},\;v_h^{(i)},\;a^{(i)} \cdot v^{(i)}\;\bigr], ~~~~ y^{(i)} = P_{Mess}^{(i)}
+    \]
+    Die Messmatrix sowie der Ausgangsvektor werden wie folgt definiert:
+    \[
+      \mathbf{X} = 
+      \begin{pmatrix}
+        \boldsymbol\phi^{(1)\top} \\
+        \vdots \\
+        \boldsymbol\phi^{(N)\top}
+      \end{pmatrix}, 
+      \quad
+      \mathbf{y} = 
+      \begin{pmatrix}
+        y^{(1)} \\ \vdots \\ y^{(N)}
+      \end{pmatrix}
+    \]
+
+  <p>
+    Ziel ist nun, den Parametervektor \(\boldsymbol\beta\) so zu bestimmen, dass Schätzung und Messung gut übereinstimmen:
+    \[
+      \mathbf{X}\,\boldsymbol\beta \approx \mathbf{y}
+    \]
+
+  <p>
+    Die klassische Lösung minimiert die quadratische Abweichung:
+    \[
+      J(\boldsymbol\beta)
+      = \bigl\|\mathbf{X}\,\boldsymbol\beta - \mathbf{y}\bigr\|^2
+      = (\mathbf{X}\boldsymbol\beta-\mathbf{y})^\top(\mathbf{X}\boldsymbol\beta-\mathbf{y})
+    \]
+    Das Minimum dieser positiven quadratischen Gleichung erhalten wird durch \(\nabla_{\boldsymbol\beta}J=0\):
+
+  <p>\[ 2\,\mathbf{X}^\top(\mathbf{X\boldsymbol\beta}-\mathbf{y}) = 0 \]
+
+  <p>Lineare Algebra liefert eine geschlossene Lösung für die optimalen Parameter \(\boldsymbol\beta\):
+
+  <p> \[ \mathbf{\boldsymbol\beta} = (\mathbf{X}^\top\mathbf{X})^{-1}\,\mathbf{X}^\top\,\mathbf{y} \]
+
+
+  <p> Da die Masse \(m\) (Fahrer + Rad + Ausrüstung), Luftdichte und Erdbeschleunigung bekannt sind, kann der Featurevektor vereinfacht werden, was zu weniger Parametern führt. Nachfolgend das Modell mit dem die 3D Fläche erzeugt wurde. Die 3D Darstellung ist möglich, da im Featurevektor nur die zwei unabhängigen Variablen Beschleunigung und Geschwindigkeit vorkommen. Die Vertikalgeschwindigkeit ist in den Ausgang gewandert:
+
+  <p>\[ P_{Mess}-\underbrace{m \cdot g \cdot v_h}_{P_{Steig}} = \beta_1 \cdot v^3 + \beta_2 \cdot v + \beta_3 \cdot a \cdot v   \]
+
+  <p> Da \(\beta_3 = m\) kann das Modell mit nur zwei Parametern geschrieben werden. Aus diesen ergeben sich dann direkt \( c_dA \) und \( c_{rr} \):
+    
+    <p>\[ P_{Mess}-\underbrace{m \cdot g \cdot v_h}_{P_{Steig}}-\underbrace{m \cdot a \cdot v}_{P_{Beschl}} = \beta_1 \cdot v^3 + \beta_2 \cdot v  \]
+
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Satz von Bayes</title>
+  <link rel="icon" type="image/x-icon" href="../../favicon.png">
+  <link rel="stylesheet" type="text/css" href="../../style.css">
+  <link rel="stylesheet" href="../../libs/katex/katex.css">
+	<script defer type="text/javascript" src="../../libs/katex/katex.js"></script>
+	<script defer src="../../libs/katex/katexAutoRender.js" onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+  <a href="../../index.html"><ul> <li>home</li> </ul></a>
+  <h2>Der Satz von Bayes</h2>
+
+  <p> Der Satz von Bayes erlaubt das Ziehen eines Umkehrschlusses bei bedingten Wahrscheinlichkeiten. Er beantwortet also Fragen der Form: Wie wahrscheinlich ist ein Ereignis \(E_1\), wenn \(E_2\) gilt, obwohl man nur weiß, wie wahrscheinlich \(E_2\) ist, wenn \(E_1\) gilt. Es soll darauf hingewiesen werden, dass es in diesem Artikel lediglich darum geht, den Satz von Bayes anhand zweier spannender, praxisnaher Beispiele zu erklären. Eine gesellschaftliche oder moralische Bewertung der Zusammenhänge findet dabei ausdrücklich nicht statt.
+
+  <h3>Beispiel 1: Bedingte Wahrscheinlichkeiten in der Kriminalstatistik</h3>
+
+  <p> In Deutschland waren im Jahr 2024 etwa 84.7 Mio. Menschen gemeldet. Davon besaßen etwa 84.5% die deutsche Staatsbürgerschaft und 15.5% hatten keinen deutschen Pass. <a href="https://www.destatis.de/EN/Themes/Society-Environment/Population/Current-Population/Tables/liste-current-population.html#1346664" target="_blank">(German Population by Nationality)</a>
+  Die Menschen mit deutschem Pass werden nachfolgend mit \(D\) abgekürzt, wohingegen diejenigen ohne deutschen Pass mit \(A\) abgekürzt werden. Schaut man sich die 
+  <a href="https://www.bmi.bund.de/SharedDocs/downloads/DE/publikationen/themen/sicherheit/BMI25028_pks-2024.pdf?__blob=publicationFile&v=8" target="_blank">
+  Kriminalstatistik</a> des Bundeskriminalamts für das Jahr 2024 an, so ist dort in Kapitel 7.2 angegeben, dass 64.6% der Tatverdächtigen deutsche Staatsbürger waren und 35.4% der Tatverdächtigen keinen deutschen Pass hatten. Aus diesen Prozentzahlen wurden bereits die Straftaten herausgerechnet, die nur Ausländer begehen können.
+  
+  <p> <div style="margin:auto; max-width:400px;"><img src="cake.png"></div>
+
+  <p> Nun könnte uns bspw. interessieren, wie hoch der Anteil der Tatverdächtigen (folglich mit \(T\) abgekürzt) unter den in Deutschland gemeldeten Personen ohne deutschen Pass (\(A\)) im Jahr 2024 war. Wir können die gesuchte Wahrscheinlichkeit als \(P(T \mid A)\) schreiben. (Wahrscheinlichkeit von \(T\) unter der Bedingung von \(A\))
+
+  <p> Zunächst könnte man annehmen, dass \(P(T \mid A) = P(A \mid T)\) gilt, denn \(P(A \mid T)\) kennen wir bereits (35.4%). Aber natürlich sind nicht 35.4% der Menschen ohne deutschen Pass auch Tatverdächtige, nur weil 35.4% der Tatverdächtigen keinen deutschen Pass haben. Genau hier hilft uns der Satz von Bayes, den Umkehrschluss zu ziehen. Er besagt für dieses Beispiel:
+    
+  <p> <div>\[ P(T \mid A) = \frac{P(A \mid T) \cdot P(T)} {P(A)} \]</div>
+  
+  <p> \(P(A)\) beschreibt den Prozentsatz der in Deutschland im Jahr 2024 gemeldeten Personen, die keinen deutschen Pass hatten (15.5%). \(P(T)\) beschreibt die Wahrscheinlichkeit, dass eine Person im Jahr 2024 in Deutschland als tatverdächtig registriert wurde. Laut Kapitel 7.2 der Kriminalstatistik, wurden 2024 etwa 2 Millionen Tatverdächtige in Deutschland registriert (ohne ausländerrechtliche Verstöße). \(P(T)\) liegt folglich bei 2.4%. Achtung, hier treffen wir die Annahme, dass alle Tatverdächtigen auch in Deutschland gemeldet sind. (Einordnung siehe zweitletzter Abschnitt)
+
+  <p> Somit ergibt sich aus dem Satz von Bayes, dass etwa 5.5% der Personen ohne deutschen Pass in 2024 Tatverdächtige waren.
+
+  <p> Nun interessiert uns noch \(P(T \mid D)\). Also der Prozentsatz der Deutschen, die 2024 tatverdächtig waren. Hier kommen wir auf 1.8%.
+
+  <p> Wir können uns außerdem noch den Quotienten \(\frac{P(T \mid A)}{P(T \mid D)}\) anschauen. Das Schöne dabei ist, dass man hierzu \(P(T)\) nicht kennen muss, da es sich herauskürzt. Der Quotient der bedingten Wahrscheinlichkeiten zeigt, dass eine Person im Jahr 2024 3-mal so wahrscheinlich tatverdächtig war, wenn sie keinen deutschen Pass hatte.
+	
+  <p> Um das Ergebnis zu validieren können wir noch einmal einen Blick in die Kriminalstatistik werfen. Denn beginnend mit dem Jahr 2024 weist diese zum ersten Mal die sogenannte Tatverdächtigenbelastungszahl (TBZ) aus. Die TBZ gibt die Anzahl der Tatverdächtigen pro 100k Einwohner einer gewissen Bevölkerungsgruppe an. In Tabelle 2 von Kapitel 7.4 lässt sich erkennen, dass 5091 von 100k in Deutschland gemeldeten Personen ohne deutschen Pass in 2024 tatverdächtig waren. Diese TBZ gibt also genau \(P(T \mid A)\) wieder, welches oben berechnet wurde. Der Unterschied zwischen den 5.1% aus der TBZ und dem hier über Bayes berechneten Wert (5.5%), lässt sich gut mit der oben getroffenen Annahme (alle Tatverdächtigen in Deutschland gemeldet) erklären. Denn in der TBZ sind nur Tatverdächtige mit deutschem Wohnsitz registriert wohingegen in der oben verwendeten Tatverdächtigenverteilung (35.4%) auch Personen enthalten sind, die nicht in Deutschland gemeldet sind. Für \(P(T \mid D)\) weist die TBZ 1878 von 100k aus. Also ziemlich genau der Wert, der auch mit Bayes berechnet wurde (1.8%).
+
+  <p>Zum Schluss noch eine Anmerkung: Da uns hier absolute Zahlen zur Verfügung stehen, hätten wir 
+  \(P(T \mid A)\) natürlich auch direkt berechnen können, indem wir die Anzahl nichtdeutscher Tatverdächtiger (ca. 0.7 Mio.) durch die nichtdeutsche Bevölkerung (ca. 13.1 Mio.) teilen (analog für \(P(T \mid D)\)). Das Schöne am Satz von Bayes ist jedoch, dass er auch dann funktioniert, wenn nur relative Häufigkeiten bekannt sind und keine absoluten Zahlen vorliegen.
+
+
+  <h3>Beispiel 2: Bedingte Wahrscheinlichkeiten in der Bürgergeldstatistik</h3>
+  
+  <p> Im März 2024 bezogen etwa 5.5 Mio. Menschen in Deutschland Bürgergeld. Dies entspricht einem Anteil von ca. 6.5% der Bevölkerung. Unter diesen Bürgergeldempfängern hatten etwa 48% keinen deutschen Pass, während ca. 52% Deutsche waren. <a href="https://www.bundestag.de/presse/hib/kurzmeldungen-1033700" target="_blank">
+  (hib 860/2024)</a>
+
+   <p> Betrachten wir wieder die Ereignisse \(A\) bzw. \(D\) für „Person ohne deutschen Pass“ bzw. „Person mit deutschem Pass“ und definieren zusätzlich \(B\) als „Person bezieht Bürgergeld“.
+  
+   <p> <div style="margin:auto; max-width:400px;"><img src="cake2.png"></div>
+  
+  <p> Wir kennen \(P(B)\) = 6.5%, \(P(A)\) = 15.5% und \(P(A \mid B)\) = 48%. Uns könnte nun interessieren, wie viele Bürgergeldbezieher es in der Personengruppe \(A\) gibt. Hier hilft uns wieder der Satz von Bayes weiter:
+
+  <p> \[ P(B \mid A)=\frac{P(A \mid B) \cdot P(B)}{P(A)} \approx 20.1\%\] 
+  
+  <p> Somit ergibt sich aus dem Satz von Bayes, dass etwa 20.1% der Personen ohne deutschen Pass in 2024 Bürgergeld bezogen haben.
+  
+  <p> Entsprechend ergibt sich, dass etwa 4.0% der Deutschen 2024 Bürgergeld bezogen haben.
+  
+  <p> Der Quotient \(\frac{P(B \mid A)}{P(B \mid D)}\) der bedingten Wahrscheinlichkeiten zeigt, dass eine Person im Jahr 2024 5-mal so wahrscheinlich Bürgergeld bezogen hat, wenn sie keinen deutschen Pass hatte, wie wenn sie deutsch war. 
+
+  <p> Und wie im ersten Beispiel auch hätten wir natürlich \(P(B \mid A)\) auch ausrechnen können, indem wir die Anzahl der nichtdeutschen Bürgergeldempfänger (2.6 Mio.) durch die Anzahl der nichtdeutschen Bevölkerung (13.1 Mio.) geteilt hätten.
+
+</body>
+
+</html>

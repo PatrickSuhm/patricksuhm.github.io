@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DFT</title>
+  <link rel="icon" type="image/x-icon" href="../../favicon.png">
+  <link rel="stylesheet" type="text/css" href="../../style.css">
+  <link rel="stylesheet" href="../../libs/codemirror/codemirror.css" />
+  <link rel="stylesheet" href="../../libs/codemirror/monokai.css" />
+  <script src="../../libs/codemirror/codemirror.js"></script>
+  <script src="../../libs/codemirror/python.js"></script>
+  <script>
+    window.onload = function () {
+      for (var i = 0; i < 3; i++) {
+        CodeMirror.fromTextArea(document.getElementById("code" + i.toString()), {
+          lineNumbers: true, mode: 'python', theme: 'monokai', readOnly: 'true',
+          viewportMargin: "10"
+        });
+      }
+    }
+  </script>
+  <style>
+    .CodeMirror {
+      height: auto;
+    }
+  </style>
+
+</head>
+
+<body>
+  <a href="../../index.html"><ul> <li>home</li> </ul></a>
+  <h2> Diskrete Fouriertransformation </h2>
+  <p> Die diskrete Fouriertransformation (DFT) ist einer der wichtigsten Algorithmen der Welt. Besonders weil sie sehr effizient implementiert werden kann, ist sie von unschätzbarem Wert in vielen Bereichen der Technik. Ich möchte hier anhand eines einfachen Beispiels zeigen, wie sie funktioniert und wofür man sie einsetzen kann. Wenn man die Fouriertransformation nur als abstraktes Konzept aus dem Studium kennt, wird man überrascht sein, wie einfach das Konzept eigentlich ist.
+
+  <p> Nehmen wir an, uns liegt das folgende Spannungssignal vor:
+  <div style="margin:auto; max-width:500px;"><img src="signal.png"></div>
+
+  <p> Nehmen wir weiterhin an, wir wollen dieses Signal extrem speichereffizient abspeichern und nehmen dafür auch Kompressionsverluste in Kauf. Das Signal wurde mit 500 Hz abgetastet und mit 32 Bit quantisiert. In der unkomprimierten Form, wie sie oben dargestellt ist, benötigt es demnach Speicherplatz für 500 Gleitkommazahlen (2000 Byte bei vier Byte pro Messwert). Ich behaupte, nahezu die komplette Information, die in diesem Signal steckt, kann mit vier Gleitkommazahlen (16 Byte) plus zwei 8 Bit Integerwerten (2 Byte) gespeichert werden. Die Idee des hier vorgestellten Kompressionsverfahrens ist es, das Signal in seine Grundbestandteile zu zerlegen und dann nur die wichtigsten Bestandteile abzuspeichern. Mit Bestandteilen meine ich hier Frequenzen. Denn so verrückt es klingt, jedes Signal und sei es auch noch so kompliziert, kann durch Addition von sinus- und cosinus-Signalen verschiedener Frequenzen erzeugt werden.
+
+  <p>Schauen wir uns zunächst an, wie man herausfinden kann, aus welchen Frequenzen ein Signal besteht. Die Idee ist einfach. Man multipliziert das zu untersuchende Signal mit einem sinusförmigen Testsignal einer gewissen Frequenz. Der Mittelwert des Produkts der beiden Signale gibt dann Aufschluss darüber, wie stark die Testfrequenz im Originalsignal vertreten ist. Beispielsweise vermutet man, dass Testsignal 1 (1 Hz) und Testsignal 2 (2 Hz) im Spannungssignal von oben vorhanden sind. Man multipliziert sie also jeweils mit dem Spannungssignal und analysiert den Mittelwert des Produkts:
+  <div style="margin:auto; max-width:800px;"><img src="principle.png"></div>
+  <p> Es ist zu erkennen, dass Testsignal 2 sehr viel stärker als Testsignal 1 mit dem Originalsignal korreliert, da der Mittelwert von Produkt 2 größer ist. Macht man das mit allen möglichen Frequenzen, die laut Abtasttheorem im Signal vorhanden sein könnten, so findet man heraus, aus welchen Frequenzen das Originalsignal hauptsächlich aufgebaut ist. Hier eine Python-Funktion, welche die Mittelwerte der Produkte aller möglichen Testsignale, in Form der Listen "real[]" und "imag[]" zurück gibt:
+
+  <div style="max-width:500px; margin:auto;">
+    <textarea id="code0">
+def Dft(signal): 
+  N = len(signal) 
+  real = [0] * N
+  imag = [0] * N
+  for f in range(N):
+    for i in range(N):
+      angle = 2 * pi * f * i / N
+      real[f] += signal[i] * cos(angle)
+      imag[f] += signal[i] * sin(angle)
+    real[f] /= N
+    imag[f] /= N
+  return real, imag</textarea>
+  </div>
+
+  <p> Sie hat den passenden Namen "Dft()" (diskrete Fourier-Transformation). In "real[]" sind die Mittelwerte der Produkte mit den cosinus-förmigen Testsignalen für alle Frequenzen von Null bis "len(signal)-1" gespeichert und in "imag[]" liegen die Mittelwerte der Produkte der sinus-förmigen Testsignale. Betrachtet man für unser Spannungssignal die Magnitude der ersten 20 Frequenzen mithilfe der Pythonfunktion "GetMagnitudes()" ergibt sich folgendes Bild:
+  
+  <div style="max-width:500px; margin:auto;">
+    <textarea id="code1">
+def GetMagnitudes(real, imag):
+  mag = []
+  for i in range(len(real)):
+    mag.append(sqrt(real[i] ** 2 + imag[i] ** 2))
+  return mag </textarea>
+  </div>
+
+  <p> <div style="margin:auto; max-width:500px;"><img src="magnitude.png"></div>
+
+<p> Die Hauptfrequenzen liegen also bei 2 Hz und 7 Hz. Hier sei noch darauf hingewiesen, 
+  dass sich die Frequenzen nur in Hz ergeben, da die Signallänge genau eine Sekunde beträgt. Ist das Signal länger oder kürzer, muss entsprechend skaliert werden, um mit der oben angegebenen Dft-Funktion auf die richtigen Frequenzen zu kommen.
+
+<p> Um das Originalsignal möglichst effizient abzuspeichern, müssen wir lediglich vier Gleitkommazahlen speichern: "real[2], imag[2], real[7], imag[7]". Außerdem natürlich die zugehörigen Frequenzen "2" und "7". Um zu testen, ob das wirklich funktioniert, können wir daraus mithilfe der inversen DFT das Originalsignal rekonstruieren:
+
+  <div style="max-width:500px; margin:auto;">
+    <textarea id="code2">
+def Idft(real, imag):
+  N = len(real)
+  signal = [0] * N
+  for i in range(N):
+    for f in range(N):
+      angle = 2 * pi * f * i / N
+      signal[i] += real[f] * cos(angle) + imag[f] * sin(angle)
+  return signal</textarea>
+  </div>
+
+<p> <div style="margin:auto; max-width:500px;"><img src="deco.png"></div>
+
+<p>Bei der Verwendung von "Idft()" wurden alle Koeffizienten bis auf "2" und "7" zu Null gesetzt. Der Kompressionsgrad kann frei gewählt werden. Speichert man beispielsweise die 50 niedrigsten sowie die 50 höchsten Frequenzen ab, kann das Originalsignal bedeutend genauer rekonstruiert werden: 
+
+<p> <div style="margin:auto; max-width:500px;"><img src="deco2.png"></div>
+
+<p>Die DFT kommt in nahezu allen Gebieten der Technik zum Einsatz. Bei der Bildkompression kommt die verwandte DCT (diskrete Cosinustransformation) im JPEG Verfahren vor. Auch das MP3 Format verwendet die DCT, um Musik effizient zu speichern. Bei der Frequenzsynthese und Korrelationsberechnung in GPS Empfängern kommt die verwandte FFT (Fast-Fourier-Transformation) zum Einsatz. In MRT-Geräten wird mithilfe der FFT die Bildrekonstruktion durchgeführt.
+
+</body>
+
+</html>
